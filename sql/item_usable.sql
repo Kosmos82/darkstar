@@ -1656,6 +1656,7 @@ INSERT INTO `item_usable` VALUES (5885,'saltena',1,1,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5886,'elshena',1,1,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5889,'stuffed_pitaru',1,1,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5890,'poultry_pitaru',1,1,0,0,0,0,0,0);
+INSERT INTO `item_usable` VALUES (5910,'heavy_metal_pouch',1,1,0,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5912,'gargouille_quiver',1,1,55,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5913,'adaman_bolt_quiver',1,1,55,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5914,'orichalcum_bullet_pouch',1,1,55,0,0,0,0,0);
