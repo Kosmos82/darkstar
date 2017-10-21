@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Sea Serpent Grotto
 -- NPC:  <this space intentionally left blank>
--- @pos -356 14 -102 176
+-- !pos -356 14 -102 176
 -----------------------------------
 package.loaded["scripts/zones/Sea_Serpent_Grotto/TextIDs"] = nil;
 -----------------------------------
@@ -24,7 +24,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:messageSpecial(NOTHING_OUT_OF_ORDINARY);
+    player:messageSpecial(NOTHING_OUT_OF_ORDINARY);
 end;
 
 -----------------------------------
@@ -32,8 +32,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -41,8 +41,8 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
    if (csid == 11) then
       if (player:getFreeSlotsCount() < 2) then
          player:messageSpecial(ITEM_CANNOT_BE_OBTAINED,18312);

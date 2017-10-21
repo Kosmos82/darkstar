@@ -2,7 +2,7 @@
 --  Area: Bastok Markets [S]
 --  NPC:  Karlotte
 --  Type: Item Deliverer
---  @pos -191.646 -8 -36.349 87
+-- !pos -191.646 -8 -36.349 87
 -----------------------------------
 package.loaded["scripts/zones/Bastok_Markets_[S]/TextIDs"] = nil;
 -----------------------------------
@@ -21,8 +21,8 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc, KARLOTTE_DELIVERY_DIALOG);
-	player:openSendBox();
+    player:showText(npc, KARLOTTE_DELIVERY_DIALOG);
+    player:openSendBox();
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

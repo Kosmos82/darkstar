@@ -1,8 +1,8 @@
 -----------------------------------
 -- Area: Windurst Woods
 -- NPC: Meriri
--- Guild Merchant NPC: Clothcrafting Guild 
--- @pos -76.471 -3.55 -128.341 241
+-- Guild Merchant NPC: Clothcrafting Guild
+-- !pos -76.471 -3.55 -128.341 241
 -----------------------------------
 package.loaded["scripts/zones/Windurst_Woods/TextIDs"] = nil;
 -----------------------------------
@@ -23,9 +23,9 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	if(player:sendGuild(515,6,21,0)) then
-		player:showText(npc,MERIRI_DIALOG);
-	end
+    if (player:sendGuild(515,6,21,0)) then
+        player:showText(npc,MERIRI_DIALOG);
+    end
 end;
 
 -----------------------------------
@@ -33,8 +33,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,7 +42,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

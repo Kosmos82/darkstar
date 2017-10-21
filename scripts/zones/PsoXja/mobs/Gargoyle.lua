@@ -1,8 +1,7 @@
 -----------------------------------
 -- Area: Pso'xja
--- NPC:  Gargoyle
+--  MOB: Gargoyle
 -----------------------------------
-
 
 
 -----------------------------------
@@ -16,16 +15,23 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer)
+function onMobDeath(mob, player, isKiller)
+end;
 
-	for i = 0, 16, 1 do
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
 
-	local GargoyleOffset = 16814082 + (i-1);
-	local DoorOffset = 16814445 + (i);
+function onMobDespawn(mob)
 
-		if(mob:getID() == GargoyleOffset) then
-			GetNPCByID(DoorOffset):openDoor(30);
-		end
-	end
+    for i = 0, 16, 1 do
+
+    local GargoyleOffset = 16814082 + (i-1);
+    local DoorOffset = 16814445 + (i);
+
+        if (mob:getID() == GargoyleOffset) then
+            GetNPCByID(DoorOffset):openDoor(30);
+        end
+    end
 
 end;

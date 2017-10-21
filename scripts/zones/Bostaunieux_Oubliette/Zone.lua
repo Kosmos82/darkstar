@@ -15,18 +15,14 @@ require("scripts/globals/zone");
 -----------------------------------
 
 function onInitialize(zone)
-    local tomes = {17461577,17461578,17461579};
-
-    SetGroundsTome(tomes);
-
     -- Drexerion the Condemned
     SetRespawnTime(17461338, 900, 10800);
 
     -- Phanduron the Condemned
     SetRespawnTime(17461343, 900, 10800);
 
-    -- Bloodseeker
-    SetRespawnTime(17461478, 75600, 86400);
+    -- Bloodsucker
+    SetRespawnTime(17461478, 3600, 3600);
 end;
 
 -----------------------------------

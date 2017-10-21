@@ -2,9 +2,9 @@
 --  Area: Windurst Waters (S)
 --   NPC: Chays-Ratays
 --  Type: Standard NPC
--- @zone: 94
---  @pos -6.013 -4.999 -185.219
--- 
+-- @zone 94
+-- !pos -6.013 -4.999 -185.219
+--
 -- Auto-Script: Requires Verification (Verified by Brawndo)
 -----------------------------------
 package.loaded["scripts/zones/Windurst_Waters_[S]/TextIDs"] = nil;
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0191);
+    player:startEvent(0x0191);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

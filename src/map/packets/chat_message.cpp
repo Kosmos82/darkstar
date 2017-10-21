@@ -26,20 +26,29 @@ This file is part of DarkStar-server source code.
 #include "chat_message.h"
 #include "../entities/charentity.h"
 
-CChatMessagePacket::CChatMessagePacket(CCharEntity* PChar, CHAT_MESSAGE_TYPE MessageType, int8* buff)
+CChatMessagePacket::CChatMessagePacket(CCharEntity* PChar, CHAT_MESSAGE_TYPE MessageType, const std::string& message, const std::string& sender)
 {
-     // Determine the return message length..
-     int32 buffSize = (strlen(buff) > 108) ? 108 : strlen(buff);
+    //there seems to be some sort of variable cap on the length of the packet, which I cannot determine
+    // (it changed when zoning, but not when zoning back)
+    // if you'd like to try and figure out what the cap is based on, the client side max message length is also
+    // variable in the same way, and is probably so under the same circumstances
+    // until that can be found, we'll just use the max length 
+    int32 buffSize = dsp_min(message.size(), 236);
+    const std::string& name = sender.empty() ? PChar->GetName() : sender;
+    // Build the packet..
+    CBasicPacket::id(id);
+    this->type = 0x17;
+    //12 (base length / 2) + ((buffSize in chunks of 4) / 2) 
+    //this->size = 12 + ((buffSize / 4) + 1) * 2;
+    this->size = 0x82;
 
-     // Build the packet..
-     this->type = 0x17;
-     this->size = dsp_min((32 + (buffSize + 1) + ((4 - ((buffSize + 1) % 4)) % 4)) / 2, 128);
+    ref<uint8>(0x04) = MessageType;
 
-     WBUFB(data, (0x04) - 4) = MessageType;
-     if (PChar->nameflags.flags & FLAG_GM)
-        WBUFB(data, (0x05) - 4) = 0x01;
-     WBUFW(data, (0x06) - 4) = PChar->getZone();
+    if (PChar->nameflags.flags & FLAG_GM && sender.empty())
+        ref<uint8>(0x05) = 0x01;
 
-     memcpy(data + (0x08) - 4, PChar->GetName(), PChar->name.size());
-     memcpy(data + (0x18) - 4, buff, buffSize);
+    ref<uint16>(0x06) = PChar->getZone();
+
+    memcpy(data + (0x08), &name[0], name.size());
+    memcpy(data + (0x18), &message[0], buffSize);
 }

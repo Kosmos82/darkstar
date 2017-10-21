@@ -12,11 +12,11 @@ require("scripts/globals/settings");
 -----------------------------------------
 
 function onItemCheck(target)
-local result = 0;
-	if (target:hasStatusEffect(EFFECT_MEDICINE)) then
-		result = 111;
-	end
-return result;
+    local result = 0;
+    if (target:hasStatusEffect(EFFECT_MEDICINE)) then
+        result = 111;
+    end
+    return result;
 end;
 
 -----------------------------------------
@@ -24,6 +24,6 @@ end;
 -----------------------------------------
 
 function onItemUse(target)
-	target:addHP(60*ITEM_POWER);
-	target:addStatusEffect(EFFECT_MEDICINE,0,0,300);
+    target:addHP(60*ITEM_POWER);
+    target:addStatusEffect(EFFECT_MEDICINE,0,0,300);
 end;

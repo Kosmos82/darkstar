@@ -41,7 +41,7 @@ class CStatusEffectContainer
 {
 public:
 
-	uint64	m_Flags;											// биты переполнения байтов m_StatusIcons (по два бита на каждый эффект)
+    uint64	m_Flags {0};											// биты переполнения байтов m_StatusIcons (по два бита на каждый эффект)
     uint8 m_StatusIcons[32];                  // иконки статус-эффектов
 
     bool ApplyBardEffect(CStatusEffect* PStatusEffect, uint8 maxSongs);
@@ -58,6 +58,7 @@ public:
 
     bool HasStatusEffect(EFFECT StatusID);                      // проверяем наличие эффекта
     bool HasStatusEffect(EFFECT StatusID, uint16 SubID);        // проверяем наличие эффекта с уникальным subid
+    bool HasStatusEffect(std::initializer_list<EFFECT>);
     bool HasStatusEffectByFlag(uint32 flag);
 
     EFFECT EraseStatusEffect();                                 // удаляем первый отрицательный эффект
@@ -71,11 +72,12 @@ public:
     CStatusEffect* GetStatusEffect(EFFECT StatusID, uint32 SubID);
 
     void UpdateStatusIcons();                                   // пересчитываем иконки эффектов
-    void CheckEffects(uint32 tick);
-    void CheckRegen(uint32 tick);
+    void CheckEffectsExpiry(time_point tick);
+    void TickEffects(time_point tick);
+    void TickRegen(time_point tick);
 
-    void LoadStatusEffects();                 // загружаем эффекты персонажа
-    void SaveStatusEffects();                 // сохраняем эффекты персонажа
+    void LoadStatusEffects();                                   // загружаем эффекты персонажа
+    void SaveStatusEffects(bool logout = false);                // сохраняем эффекты персонажа
 
     uint8 GetEffectsCount(EFFECT ID);                        // получаем количество эффектов с указанным id
 
@@ -93,6 +95,18 @@ public:
     bool IsAsleep();
     bool HasPreventActionEffect(); // checks if owner has an effect that prevents actions, like stun, petrify, sleep etc
 
+    uint16 GetConfrontationEffect(); // gets confrontation number (bcnm, confrontation, campaign, reive mark)
+    void CopyConfrontationEffect(CBattleEntity* PEntity); // copies confrontation status (pet summoning, etc)
+
+    template<typename F, typename... Args>
+    void ForEachEffect(F func, Args&&... args)
+    {
+        for (auto&& PEffect : m_StatusEffectList)
+        {
+            func(PEffect, std::forward<Args>(args)...);
+        }
+    }
+
 	CStatusEffectContainer(CBattleEntity* PEntity);
 	~CStatusEffectContainer();
 
@@ -105,9 +119,6 @@ private:
 	void SetEffectParams(CStatusEffect* StatusEffect);			// устанавливаем имя эффекта
 
     void OverwriteStatusEffect(CStatusEffect* StatusEffect);
-
-	uint32 m_EffectCheckTime;
-	uint32 m_RegenCheckTime;
 
 	std::vector<CStatusEffect*>	m_StatusEffectList;
 };

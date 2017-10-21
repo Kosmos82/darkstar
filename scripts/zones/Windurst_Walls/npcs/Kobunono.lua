@@ -2,8 +2,8 @@
 --  Area: Windurst Walls
 --   NPC: Kobunono
 --  Type: Adv. Assistant
--- @zone: 239
---  @pos 52.042 -3.499 -57.588
+-- @zone 239
+-- !pos 52.042 -3.499 -57.588
 --
 -- Auto-Script: Requires Verification (Verfied by Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x2715);
+    player:startEvent(0x2715);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

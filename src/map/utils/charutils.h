@@ -28,16 +28,19 @@ This file is part of DarkStar-server source code.
 
 #include "../trait.h"
 #include "../entities/charentity.h"
+#include "../items/item_armor.h"
 
 class CPetEntity;
 class CMobEntity;
 class CMeritPoints;
+class CAbility;
 
 namespace charutils
 {
 
     void	LoadExpTable();
     void	LoadChar(CCharEntity* PChar);
+    void    LoadSpells(CCharEntity* PChar);
     void	LoadInventory(CCharEntity* PChar);
     void    LoadEquip(CCharEntity* PChar);
 
@@ -53,7 +56,7 @@ namespace charutils
     uint32	GetExpNEXTLevel(uint8 charlvl);
     uint32	GetRealExp(uint8 charlvl, uint8 moblvl);
 
-    void	DelExperiencePoints(CCharEntity* PChar, float retainpct);
+    void	DelExperiencePoints(CCharEntity* PChar, float retainpct, uint16 forcedXpLoss);
     void	DistributeExperiencePoints(CCharEntity* PChar, CMobEntity* PMob);
     void	DistributeGil(CCharEntity* PChar, CMobEntity* PMob);
     void	AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMob, uint32 exp, uint32 baseexp = 0, bool isexpchain = false);
@@ -73,31 +76,35 @@ namespace charutils
     uint8   AddItem(CCharEntity* PChar, uint8 LocationID, CItem* PItem, bool silence = false);
     uint8	AddItem(CCharEntity* PChar, uint8 LocationID, uint16 itemID, uint32 quantity = 1, bool silence = false);
     uint8   MoveItem(CCharEntity* PChar, uint8 LocationID, uint8 SlotID, uint8 NewSlotID);
-    uint32	UpdateItem(CCharEntity* PChar, uint8 LocationID, uint8 slotID, int32 quantity);
+    uint32	UpdateItem(CCharEntity* PChar, uint8 LocationID, uint8 slotID, int32 quantity, bool force = false);
     void	CheckValidEquipment(CCharEntity* PChar);
     void	CheckEquipLogic(CCharEntity* PChar, SCRIPTTYPE ScriptType, uint32 param);
     void	EquipItem(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 containerID);
     void	UnequipItem(CCharEntity* PChar, uint8 equipSlotID, bool update = true); //call with update == false to prevent calls to UpdateHealth() - used for correct handling of stats on armor swaps
     void    RemoveSub(CCharEntity* PChar);
-    bool    EquipArmor(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID);
+    bool    EquipArmor(CCharEntity* PChar, uint8 slotID, uint8 equipSlotID, uint8 containerID);
     void	CheckUnarmedWeapon(CCharEntity* PChar);
+    void    SetStyleLock(CCharEntity* PChar, bool isStyleLocked);
+    void    UpdateWeaponStyle(CCharEntity* PChar, uint8 equipSlotID, CItemWeapon* PItem);
+    void    UpdateArmorStyle(CCharEntity* PChar, uint8 equipSlotID);
 
-    void    UpdateHealth(CCharEntity* PChar);
-
-    int32	hasKeyItem(CCharEntity* PChar, uint16 KeyItemID);	        // проверяем наличие ключевого предмета
-    int32	seenKeyItem(CCharEntity* PChar, uint16 KeyItemID);	        // проверяем, было ли описание ключевого предмета прочитано
-    int32	unseenKeyItem(CCharEntity* PChar, uint16 KeyItemID);        // Attempt to remove keyitem from seen list
-    int32	addKeyItem(CCharEntity* PChar, uint16 KeyItemID);	        // добавляем ключевой предмет
-    int32	delKeyItem(CCharEntity* PChar, uint16 KeyItemID);	        // улаляем ключевой предмет
+    bool	hasKeyItem(CCharEntity* PChar, uint16 KeyItemID);	        // проверяем наличие ключевого предмета
+    bool	seenKeyItem(CCharEntity* PChar, uint16 KeyItemID);	        // проверяем, было ли описание ключевого предмета прочитано
+    void	unseenKeyItem(CCharEntity* PChar, uint16 KeyItemID);        // Attempt to remove keyitem from seen list
+    void	addKeyItem(CCharEntity* PChar, uint16 KeyItemID);	        // добавляем ключевой предмет
+    void	delKeyItem(CCharEntity* PChar, uint16 KeyItemID);	        // улаляем ключевой предмет
 
     int32	hasSpell(CCharEntity* PChar, uint16 SpellID);		        // проверяем наличие заклинания
     int32	addSpell(CCharEntity* PChar, uint16 SpellID);		        // добавляем заклинание
     int32	delSpell(CCharEntity* PChar, uint16 SpellID);		        // улаляем заклинание
-    void    filterEnabledSpells(CCharEntity* PChar);                    // Calculates a View of a Char's Spell List filtering out spells that are disabled.
 
     int32	hasLearnedAbility(CCharEntity* PChar, uint16 AbilityID);	// проверяем наличие заклинания
     int32	addLearnedAbility(CCharEntity* PChar, uint16 AbilityID);	// добавляем заклинание
     int32	delLearnedAbility(CCharEntity* PChar, uint16 AbilityID);	// улаляем заклинание
+
+    bool	hasLearnedWeaponskill(CCharEntity* PChar, uint8 wsid);
+    void	addLearnedWeaponskill(CCharEntity* PChar, uint8 wsid);
+    void	delLearnedWeaponskill(CCharEntity* PChar, uint8 wsid);
 
     int32	hasAbility(CCharEntity* PChar, uint16 AbilityID);	        // проверяем наличие ключевого предмета
     int32	addAbility(CCharEntity* PChar, uint16 AbilityID);	        // добавляем ключевой предмет
@@ -123,6 +130,7 @@ namespace charutils
     void	SaveCharJob(CCharEntity* PChar, JOBTYPE job);		        // сохраняем уровень для выбранной профессий персонажа
     void	SaveCharExp(CCharEntity* PChar, JOBTYPE job);		        // сохраняем опыт для выбранной профессии персонажа
     void	SaveCharEquip(CCharEntity* PChar);					        // сохраняем экипировку и внешний вид персонажа
+    void    SaveCharLook(CCharEntity* PChar);                           // Saves a character's appearance based on style locking.
     void	SaveCharPosition(CCharEntity* PChar);				        // сохраняем позицию персонажа
     void	SaveMissionsList(CCharEntity* PChar);                       // Save the missions list
     void	SaveQuestsList(CCharEntity* PChar);					        // сохраняем список ксевтов
@@ -130,13 +138,15 @@ namespace charutils
     void	SaveZonesVisited(CCharEntity* PChar);				        // сохраняем посещенные зоны
     void	SaveKeyItems(CCharEntity* PChar);					        // сохраняем ключевые предметы
     void	SaveCharInventoryCapacity(CCharEntity* PChar);              // Save Character inventory capacity
-    void	SaveSpells(CCharEntity* PChar);						        // сохраняем выученные заклинания
+    void	SaveSpell(CCharEntity* PChar, uint16 spellID);						        // сохраняем выученные заклинания
+    void	DeleteSpell(CCharEntity* PChar, uint16 spellID);
     void	SaveLearnedAbilities(CCharEntity* PChar);					// saved learned abilities (corsair rolls)
     void    SaveTitles(CCharEntity* PChar);						        // сохраняем заслуженные звания
     void	SaveCharStats(CCharEntity* PChar);					        // сохраняем флаги, текущие значения жихней, маны и профессий
     void    SaveCharGMLevel(CCharEntity* PChar);                        // saves the char's gm level and nameflags
     void    mentorMode(CCharEntity* PChar);                             // Changes char's mentor status
-    void	SaveCharNation(CCharEntity* PChar);							// Sace the character's nation of allegiance.
+    void	SaveCharNation(CCharEntity* PChar);							// Save the character's nation of allegiance.
+    void    SaveCampaignAllegiance(CCharEntity* PChar);                 // Save the character's campaign allegiance.
     void	SaveCharSkills(CCharEntity* PChar, uint8 skillID);	        // сохраняем указанный skill персонажа
     void	SaveCharPoints(CCharEntity* PChar);							// Conquest point, Nation TP
     void	SaveDeathTime(CCharEntity* PChar);							// Saves when this character last died.
@@ -161,11 +171,17 @@ namespace charutils
     void	ClearTempItems(CCharEntity* PChar);
     void	ReloadParty(CCharEntity* PChar);
 
+    bool    IsAidBlocked(CCharEntity* PInitiator, CCharEntity* PTarget);
+
     void    AddPoints(CCharEntity* PChar, const char* type, int32 amount, int32 max = INT32_MAX);
     void    SetPoints(CCharEntity* PChar, const char* type, int32 amount);
     int32   GetPoints(CCharEntity* PChar, const char* type);
     std::string GetConquestPointsName(CCharEntity* PChar);
     void    SendToZone(CCharEntity* PChar, uint8 type, uint64 ipp);
+    void    HomePoint(CCharEntity* PChar);
+    void    AddWeaponSkillPoints(CCharEntity*, SLOTTYPE, int);
+
+    int32   GetVar(CCharEntity* PChar, const char* var);
 };
 
 #endif

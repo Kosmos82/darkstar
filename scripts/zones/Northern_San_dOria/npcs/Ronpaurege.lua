@@ -2,8 +2,8 @@
 --  Area: Northern San d'Oria
 --  NPC: Ronpaurege
 --  Type: Standard Info NPC
---  @zone: 231
---  @pos 65.739 -0.199 74.275
+--  @zone 231
+-- !pos 65.739 -0.199 74.275
 --
 -----------------------------------
 
@@ -19,7 +19,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x029d);	
+    player:startEvent(0x029d);
 end;
 
 -----------------------------------
@@ -27,8 +27,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -36,7 +36,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

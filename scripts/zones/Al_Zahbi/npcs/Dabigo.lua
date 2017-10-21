@@ -1,13 +1,8 @@
 -----------------------------------
---  Area: Al Zahbi
---   NPC: Dabigo
---  Type: Delivery Box Manager
--- @zone: 48
---  @pos -34.289 -1 -129.141
--- 
--- Auto-Script: Requires Verification (Verified by Brawndo)
------------------------------------
-package.loaded["scripts/zones/Al_Zahbi/TextIDs"] = nil;
+-- Area: Al Zahbi
+--  NPC: Dabigo
+-- Type: Delivery Box Manager
+-- !pos -34.289 -1 -129.141 48
 -----------------------------------
 
 -----------------------------------
@@ -22,7 +17,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x00d2);
+    player:startEvent(0x00d2);
 end;
 
 -----------------------------------
@@ -30,8 +25,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +34,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-

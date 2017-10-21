@@ -28,8 +28,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -37,10 +37,10 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 
-   if(csid == 0x0DD and option == 333) then
+   if (csid == 0x0DD and option == 333) then
       player:delGil(100);
    end
 end;

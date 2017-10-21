@@ -2,7 +2,7 @@
 -- Area: Mhaura
 -- NPC:  Dieh Yamilsiah
 -- Reports the time remaining before boat arrival.
--- @pos 7.057 -2.364 2.489 249
+-- !pos 7.057 -2.364 2.489 249
 -----------------------------------
 package.loaded["scripts/zones/Mhaura/TextIDs"] = nil;
 -----------------------------------
@@ -22,8 +22,8 @@ end;
 
 function onTrigger(player,npc)
 
-	-- Each boat comes every 1152 seconds/8 game hours, 4 hour offset between Selbina and Aht Urghan
-	-- Original timer: local timer = 1152 - ((os.time() - 1009810584)%1152);
+    -- Each boat comes every 1152 seconds/8 game hours, 4 hour offset between Selbina and Aht Urghan
+    -- Original timer: local timer = 1152 - ((os.time() - 1009810584)%1152);
    local timer = 1152 - ((os.time() - 1009810802)%1152);
    local destination = 0; -- Selbina, set to 1 for Al Zhabi
    local direction = 0; -- Arrive, 1 for depart
@@ -48,7 +48,7 @@ function onTrigger(player,npc)
    --[[Other cutscenes:
    233 "This ship is headed for Selbina."
    234 "The Selbina ferry will deparrrt soon!  Passengers are to board the ship immediately!"
-   
+
    Can't find a way to toggle the destination on 233 or 234, so they are not used.
    Users knowing which ferry is which > using all CSs.]]
 
@@ -59,8 +59,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
--- printf("CSID: %u",csid);
--- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -68,6 +68,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
--- printf("CSID: %u",csid);
--- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;

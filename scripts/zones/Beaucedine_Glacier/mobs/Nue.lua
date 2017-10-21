@@ -1,24 +1,30 @@
 -----------------------------------
---  Area: Beaucedine Glacier (111)
---  NM:	  Nue
+-- Area: Beaucedine Glacier (111)
+--  NM:  Nue
 -----------------------------------
 
 -----------------------------------
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer)	
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Nue's Window Open Time
-    wait = math.random((3600),(7200));
-    SetServerVariable("[POP]Nue", os.time(t) + wait); -- 1-2 hours
-    DeterMob(mob:getID(), true);
-    
+    local wait = math.random((3600),(7200));
+    SetServerVariable("[POP]Nue", os.time() + wait); -- 1-2 hours
+    DisallowRespawn(mob:getID(), true);
+
     -- Set PH back to normal, then set to respawn spawn
-    PH = GetServerVariable("[PH]Nue");
+    local PH = GetServerVariable("[PH]Nue");
     SetServerVariable("[PH]Nue", 0);
-    DeterMob(PH, false);
+    DisallowRespawn(PH, false);
     GetMobByID(PH):setRespawnTime(GetMobRespawnTime(PH));
 
 end;
-

@@ -2,7 +2,7 @@
 --  Area: Castle Zvahl Baileys
 --   NPC: Switchstix
 --  Type: Standard NPC
---  @pos 386.091 -13 -17.399 161
+-- !pos 386.091 -13 -17.399 161
 -----------------------------------
 package.loaded["scripts/zones/Castle_Zvahl_Baileys/TextIDs"] = nil;
 require("scripts/zones/Castle_Zvahl_Baileys/TextIDs");
@@ -99,13 +99,13 @@ function hasRelic(entity,checktype)
    -- Type 2 == Player is trading an item
 
    if checktype == 1 then
-      for i=1, table.getn(relics), 2 do -- Step through the array grabbing every second (2) value, and see if it matches that itemid.
+      for i=1, #relics, 2 do -- Step through the array grabbing every second (2 value, and see if it matches that itemid.
          if (entity:hasItem(relics[i],LOC_INVENTORY)) then -- Specifically checks inventory, so that items in other containers (mog safe, satchel, etc) will be ignored.
             return relics[i];
          end
       end
    elseif checktype == 2 then
-      for i=1, table.getn(relics),2 do
+      for i=1, #relics,2 do
          if (entity:hasItemQty(relics[i],1)) then
             return relics[i];
          end
@@ -114,7 +114,7 @@ function hasRelic(entity,checktype)
 end;
 
 function getRelicParameters(itemid)
-   for i=1, table.getn(relics), 2 do
+   for i=1, #relics, 2 do
       if (relics[i] == itemid) then -- If you've found the right itemid, return the array stored in the next value.
          return relics[i + 1];
       end
@@ -141,16 +141,16 @@ function onTrade(player,npc,trade)
       eventParams = getRelicParameters(itemid);
 
          -- Stage 1->2 or 2->3, 3 items + relic itself
-         if(count == eventParams[4] and trade:hasItemQty(eventParams[1],1) and trade:hasItemQty(eventParams[2],1) and
+         if (count == eventParams[4] and trade:hasItemQty(eventParams[1],1) and trade:hasItemQty(eventParams[2],1) and
             trade:hasItemQty(eventParams[3],1) and trade:hasItemQty(itemid,1)) then
                tradeOK = true;
 
          -- Stage 3->4, just check for attestation + relic itself
-         elseif(count == eventParams[4] and trade:hasItemQty(eventParams[1],1) and trade:hasItemQty(itemid,1)) then
+         elseif (count == eventParams[4] and trade:hasItemQty(eventParams[1],1) and trade:hasItemQty(itemid,1)) then
             tradeOK = true;
 
          -- Stage 4->5, Shard + Necropschye + relic itself
-         elseif(count == eventParams[4] and trade:hasItemQty(eventParams[1],1) and trade:hasItemQty(eventParams[2],1) and trade:hasItemQty(itemid,1)) then
+         elseif (count == eventParams[4] and trade:hasItemQty(eventParams[1],1) and trade:hasItemQty(eventParams[2],1) and trade:hasItemQty(itemid,1)) then
             tradeOK = true;
          end
 
@@ -181,7 +181,9 @@ function onTrade(player,npc,trade)
       elseif (count == eventParams[6] * 3 and eventParams[5] == 0) then
          -- Has currencyamount of all three currencies
          if (trade:hasItemQty(1450,eventParams[6]) and trade:hasItemQty(1453,eventParams[6]) and trade:hasItemQty(1456,eventParams[6])) then
-            tradeOK = true;
+            if (eventParams[5] ~= 1451 and eventParams[5] ~= 1454 and eventParams[5] ~= 1457) then -- disallow trade of 10k piece, else the gob will eat it.
+               tradeOK = true;
+            end
          end
       end
 

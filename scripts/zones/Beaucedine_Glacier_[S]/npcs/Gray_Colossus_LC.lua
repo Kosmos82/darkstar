@@ -2,9 +2,9 @@
 --  Area: Beaucedine Glacier (S)
 --   NPC: Gray Colossus, L.C.
 --  Type: Campaign Arbiter
--- @zone: 136
---  @pos 76.178 -60.763 -48.775
--- 
+-- @zone 136
+-- !pos 76.178 -60.763 -48.775
+--
 -- Auto-Script: Requires Verification (Verified by Brawndo)
 -----------------------------------
 package.loaded["scripts/zones/Beaucedine_Glacier_[S]/TextIDs"] = nil;
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x01c3);
+    player:startEvent(0x01c3);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

@@ -2,8 +2,8 @@
 --  Area: Northern San d'Oria
 --  NPC: Ishwar
 --  Type: Standard Dialogue NPC
---  @zone: 231
---  @pos -47.103 -1.999 -19.582
+--  @zone 231
+-- !pos -47.103 -1.999 -19.582
 --
 -----------------------------------
 
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc,ISHWAR_DIALOG);
+    player:showText(npc,ISHWAR_DIALOG);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

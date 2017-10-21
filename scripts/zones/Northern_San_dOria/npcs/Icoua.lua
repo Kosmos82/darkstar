@@ -2,8 +2,8 @@
 --  Area: Northern San d'Oria
 --   NPC: Icoua
 --  Type: Standard NPC
--- @zone: 231
---  @pos 87.719 -1 9.256
+-- @zone 231
+-- !pos 87.719 -1 9.256
 --
 -- Auto-Script: Requires Verification (Verified by Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x02a2);
+    player:startEvent(0x02a2);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

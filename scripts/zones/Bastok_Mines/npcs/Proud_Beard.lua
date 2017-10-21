@@ -14,7 +14,7 @@ require("scripts/globals/events/harvest_festivals");
 -----------------------------------
 
 function onTrade(player,npc,trade)
-	onHalloweenTrade(player,trade,npc)
+    onHalloweenTrade(player,trade,npc)
 end;
 
 -----------------------------------
@@ -47,8 +47,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -56,6 +56,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;

@@ -2,8 +2,8 @@
 --  Area: Northern San d'Oria
 --  NPC: Phaviane
 --  Type: Standard Dialogue NPC
---  @zone: 231
---  @pos -4.000 0.000 -28.000
+--  @zone 231
+-- !pos -4.000 0.000 -28.000
 --
 -----------------------------------
 
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc,PHAVIANE_DIALOG);
+    player:showText(npc,PHAVIANE_DIALOG);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

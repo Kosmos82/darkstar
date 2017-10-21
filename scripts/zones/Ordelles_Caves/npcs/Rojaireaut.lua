@@ -2,7 +2,7 @@
 --  Area: Ordelle's Caves
 --  NPC:  Rojaireaut
 --  Type: Standard NPC
---  @pos -91.781 -0.545 587.944 193
+-- !pos -91.781 -0.545 587.944 193
 -----------------------------------
 package.loaded["scripts/zones/Ordelles_Caves/TextIDs"] = nil;
 -----------------------------------
@@ -19,7 +19,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0032);
+    player:startEvent(0x0032);
 end;
 
 -----------------------------------
@@ -27,8 +27,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -36,7 +36,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

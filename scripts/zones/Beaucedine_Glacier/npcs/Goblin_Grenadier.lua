@@ -2,7 +2,7 @@
 --  Area: Beaucedine Glacier
 --  NPC:  Goblin Grenadier
 --  Type: Mission NPC
---  @pos -26.283 -60.49 -76.640 111
+-- !pos -26.283 -60.49 -76.640 111
 -----------------------------------
 package.loaded["scripts/zones/Beaucedine_Glacier/TextIDs"] = nil;
 -----------------------------------
@@ -19,7 +19,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x01fd);
+    player:startEvent(0x01fd);
 end;
 
 -----------------------------------
@@ -27,8 +27,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -36,7 +36,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

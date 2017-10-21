@@ -2,8 +2,8 @@
 --  Area: Northern San d'Oria
 --  NPC: Maurinne
 --  Type: Standard Dialogue NPC
---  @zone: 231
---  @pos -127.185 0.000 179.193
+--  @zone 231
+-- !pos -127.185 0.000 179.193
 --
 -----------------------------------
 
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc,MAURINNE_DIALOG);
+    player:showText(npc,MAURINNE_DIALOG);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

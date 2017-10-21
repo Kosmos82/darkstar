@@ -3,9 +3,9 @@
 -- Item: Cruel Scythe
 -- Additional Effect: Impairs evasion
 -----------------------------------------
-
 require("scripts/globals/status");
 require("scripts/globals/magic");
+require("scripts/globals/msg");
 
 -----------------------------------
 -- onAdditionalEffect Action
@@ -18,9 +18,7 @@ function onAdditionalEffect(player,target,damage)
         return 0,0,0;
     else
         target:delStatusEffect(EFFECT_EVASION_DOWN)
-        if (not target:hasStatusEffect(EFFECT_EVASION_DOWN)) then
-            target:addStatusEffect(EFFECT_EVASION_DOWN, 12, 0, 60);
-        end
-        return SUBEFFECT_DEFENSE_DOWN, 160, EFFECT_EVASION_DOWN; -- I believe this is the correct subeffect animation.
+        target:addStatusEffect(EFFECT_EVASION_DOWN, 12, 0, 60); -- Retail is actually 12.5% but DSP doesn't have the decimal place
+        return SUBEFFECT_EVASION_DOWN, msgBasic.ADD_EFFECT_STATUS, EFFECT_EVASION_DOWN;
     end
 end;

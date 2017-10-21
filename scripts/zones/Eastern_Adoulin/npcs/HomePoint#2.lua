@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Eastern_Adoulin
 -- NPC:  HomePoint#2
--- @pos
+-- !pos
 -----------------------------------
 
 package.loaded["scripts/zones/Eastern_Adoulin/TextIDs"] = nil;
@@ -15,7 +15,7 @@ require("scripts/globals/homepoint");
 -----------------------------------
 
 function onTrade(player,npc,trade)
-end; 
+end;
 
 -----------------------------------
 -- onTrigger Action
@@ -23,16 +23,16 @@ end;
 
 function onTrigger(player,npc)
 
-	homepointMenu( player, 0x21fd, 110);
-end; 
+    homepointMenu( player, 0x21fd, 110);
+end;
 
 -----------------------------------
 -- onEventUpdate
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	--printf("CSID: %u",csid);
-	--printf("RESULT: %u",option);
+    --printf("CSID: %u",csid);
+    --printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -40,16 +40,16 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	--printf("CSID: %u",csid);
-	--printf("RESULT: %u",option);
+    --printf("CSID: %u",csid);
+    --printf("RESULT: %u",option);
 
-	if(csid == 0x21fd) then
+    if (csid == 0x21fd) then
 
-		if (option == 1) then	
-			player:setHomePoint();
-			player:messageSpecial(HOMEPOINT_SET);
-		else
-			hpTeleport( player, option);
-		end
-	end
+        if (option == 1) then
+            player:setHomePoint();
+            player:messageSpecial(HOMEPOINT_SET);
+        else
+            hpTeleport( player, option);
+        end
+    end
 end;

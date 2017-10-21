@@ -1,8 +1,8 @@
 -----------------------------------
 -- Area: Port Windurst
 -- NPC: Babubu
--- Guild Merchant NPC: Fishing Guild 
--- @pos -175.185 -3.324 70.445 240
+-- Guild Merchant NPC: Fishing Guild
+-- !pos -175.185 -3.324 70.445 240
 -----------------------------------
 package.loaded["scripts/zones/Port_Windurst/TextIDs"] = nil;
 -----------------------------------
@@ -16,16 +16,16 @@ require("scripts/zones/Port_Windurst/TextIDs");
 -----------------------------------
 
 function onTrade(player,npc,trade)
-end; 
+end;
 
 -----------------------------------
 -- onTrigger Action
 -----------------------------------
 
 function onTrigger(player,npc)
-	if(player:sendGuild(517,3,18,5)) then
-		player:showText(npc,BABUBU_SHOP_DIALOG);
-	end
+    if (player:sendGuild(517,3,18,5)) then
+        player:showText(npc,BABUBU_SHOP_DIALOG);
+    end
 end;
 
 -----------------------------------
@@ -33,8 +33,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,9 +42,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-
-
 

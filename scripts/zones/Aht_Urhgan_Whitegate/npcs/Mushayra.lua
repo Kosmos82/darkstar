@@ -2,7 +2,7 @@
 --  Area: Aht Urhgan Whitegate
 --  NPC:  Mushayra
 --  Type: Standard NPC
---  @pos -111.551 -6.999 -61.720 50
+-- !pos -111.551 -6.999 -61.720 50
 -----------------------------------
 package.loaded["scripts/zones/Aht_Urhgan_Whitegate/TextIDs"] = nil;
 -----------------------------------
@@ -21,7 +21,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0207);
+    player:startEvent(0x0207);
 end;
 
 -----------------------------------
@@ -29,8 +29,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -38,7 +38,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

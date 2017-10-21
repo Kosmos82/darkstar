@@ -2,7 +2,7 @@
 -- Area: West Ronfaure
 -- NPC: Zovriace
 -- Type: Patrol NPC
--- @pos -436.356 -15.851 -258.168 100
+-- !pos -436.356 -15.851 -258.168 100
 -----------------------------------
 package.loaded["scripts/zones/West_Ronfaure/TextIDs"] = nil;
 -----------------------------------
@@ -301,7 +301,7 @@ local path = {
 -145.559814, -59.996250, 261.249481,
 -135.296967, -61.920395, 270.550049,-- report?
 -136.090424, -61.731232, 269.830048,
--136.884094, -61.542065, 269.110352, 
+-136.884094, -61.542065, 269.110352,
 -150.086914, -59.899998, 257.147797,
 -151.020218, -59.899998, 256.592834,
 -152.073257, -59.902092, 256.345337,
@@ -1013,8 +1013,8 @@ local path = {
 
 function onSpawn(npc)
     npc:initNpcAi();
-	npc:setPos(pathfind.first(path));
-	onPath(npc);
+    npc:setPos(pathfind.first(path));
+    onPath(npc);
 end;
 
 -----------------------------------
@@ -1023,14 +1023,14 @@ end;
 
 function onPath(npc)
 
-	if (npc:atPoint(pathfind.get(path, 288))) then
-		local Colmaie = GetNPCByID(npc:getID() + 4);
-		Colmaie:showText(npc, ZOVRIACE_REPORT);
-		-- small delay after path finish
-		npc:wait(8000);
-	end
+    if (npc:atPoint(pathfind.get(path, 288))) then
+        local Colmaie = GetNPCByID(npc:getID() + 4);
+        Colmaie:showText(npc, ZOVRIACE_REPORT);
+        -- small delay after path finish
+        npc:wait(8000);
+    end
 
-	pathfind.patrol(npc, path);
+    pathfind.patrol(npc, path);
 
 end;
 
@@ -1046,8 +1046,8 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc, ZOVRIACE_DIALOG);
-	npc:wait();
+    player:showText(npc, ZOVRIACE_DIALOG);
+    npc:wait();
 end;
 
 -----------------------------------
@@ -1055,8 +1055,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -1064,7 +1064,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

@@ -1,8 +1,8 @@
 -----------------------------------
---	Area: Mhaura
---	NPC: Yabby Tanmikey
---  Guild Merchant NPC: Goldsmithing Guild 
---  @pos -36.459 -16.000 76.840 249
+-- Area: Mhaura
+-- NPC: Yabby Tanmikey
+--  Guild Merchant NPC: Goldsmithing Guild
+-- !pos -36.459 -16.000 76.840 249
 -----------------------------------
 package.loaded["scripts/zones/Mhaura/TextIDs"] = nil;
 -----------------------------------
@@ -16,16 +16,16 @@ require("scripts/zones/Mhaura/TextIDs");
 -----------------------------------
 
 function onTrade(player,npc,trade)
-end; 
+end;
 
 -----------------------------------
 -- onTrigger Action
 -----------------------------------
 
 function onTrigger(player,npc)
-	if(player:sendGuild(528,8,23,4)) then
-		player:showText(npc,GOLDSMITHING_GUILD);
-	end
+    if (player:sendGuild(528,8,23,4)) then
+        player:showText(npc,GOLDSMITHING_GUILD);
+    end
 end;
 
 -----------------------------------
@@ -33,8 +33,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,9 +42,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-
-
-

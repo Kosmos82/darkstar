@@ -25,6 +25,9 @@
 
 #include <string.h> 
 
+#include "../universal_container.h"
+#include "../item_container.h"
+
 #include "../lua/luautils.h"
 
 #include "../packets/caught_fish.h"
@@ -103,7 +106,7 @@ void StartFishing(CCharEntity* PChar)
 			
 	if ((WeaponItem == nullptr) ||
 	   !(WeaponItem->isType(ITEM_WEAPON)) ||
-		(WeaponItem->getSkillType() != SKILL_FSH)) 
+		(WeaponItem->getSkillType() != SKILL_FISHING)) 
 	{													
 		// сообщение: "You can't fish without a rod in your hands"
 
@@ -116,7 +119,7 @@ void StartFishing(CCharEntity* PChar)
 							
 	if ((WeaponItem == nullptr) ||
 	   !(WeaponItem->isType(ITEM_WEAPON)) ||
-		(WeaponItem->getSkillType() != SKILL_FSH))
+		(WeaponItem->getSkillType() != SKILL_FISHING))
 	{
 		// сообщение: "You can't fish without bait on the hook"	
 
@@ -153,7 +156,7 @@ bool CheckFisherLuck(CCharEntity* PChar)
 
 	DSP_DEBUG_BREAK_IF(WeaponItem == nullptr);
 	DSP_DEBUG_BREAK_IF(WeaponItem->isType(ITEM_WEAPON) == false);
-	DSP_DEBUG_BREAK_IF(WeaponItem->getSkillType() != SKILL_FSH);
+	DSP_DEBUG_BREAK_IF(WeaponItem->getSkillType() != SKILL_FISHING);
 
 	uint16 RodID = WeaponItem->getID();
 
@@ -161,11 +164,11 @@ bool CheckFisherLuck(CCharEntity* PChar)
 							
 	DSP_DEBUG_BREAK_IF(WeaponItem == nullptr);
 	DSP_DEBUG_BREAK_IF(WeaponItem->isType(ITEM_WEAPON) == false);
-	DSP_DEBUG_BREAK_IF(WeaponItem->getSkillType() != SKILL_FSH);
+	DSP_DEBUG_BREAK_IF(WeaponItem->getSkillType() != SKILL_FISHING);
 
 	uint16 LureID = WeaponItem->getID();
 
-	int32 FishingChance = WELL512::irand()%100;
+	int32 FishingChance = dsprand::GetRandomNumber(100);
 
 	if (FishingChance <= 20)
 	{
@@ -238,7 +241,7 @@ bool CheckFisherLuck(CCharEntity* PChar)
 		if( ret != SQL_ERROR && Sql_NumRows(SqlHandle) != 0)
 		{
 			int32 FisherLuck = 0;
-			int32 FishingChance = WELL512::irand()%1000;
+            int32 FishingChance = dsprand::GetRandomNumber(1000);
 
 			while(Sql_NextRow(SqlHandle) == SQL_SUCCESS) 
 			{
@@ -271,7 +274,7 @@ bool LureLoss(CCharEntity* PChar, bool RemoveFly)
 
 	DSP_DEBUG_BREAK_IF(PLure == nullptr);
 	DSP_DEBUG_BREAK_IF(PLure->isType(ITEM_WEAPON) == false);
-	DSP_DEBUG_BREAK_IF(PLure->getSkillType() != SKILL_FSH);
+	DSP_DEBUG_BREAK_IF(PLure->getSkillType() != SKILL_FISHING);
 
 	if (!RemoveFly &&
 	   ( PLure->getStackSize() == 1))
@@ -280,7 +283,7 @@ bool LureLoss(CCharEntity* PChar, bool RemoveFly)
 	}
 	if (PLure->getQuantity() == 1)
 	{
-		charutils::EquipItem(PChar, 0, PChar->equip[SLOT_AMMO], LOC_INVENTORY);
+		charutils::EquipItem(PChar, 0, SLOT_AMMO, LOC_INVENTORY);
 	}
 
 	charutils::UpdateItem(PChar, PLure->getLocationID(), PLure->getSlotID(), -1);
@@ -334,7 +337,7 @@ void RodBreaks(CCharEntity* PChar)
 *																		*
 ************************************************************************/
 
-void FishingAction(CCharEntity* PChar, FISHACTION action, uint16 stamina)
+void FishingAction(CCharEntity* PChar, FISHACTION action, uint16 stamina, uint32 special)
 {
 	uint16 MessageOffset = GetMessageOffset(PChar->getZone());
 
@@ -346,10 +349,10 @@ void FishingAction(CCharEntity* PChar, FISHACTION action, uint16 stamina)
 			{
 				// сообщение: "Something caught the hook!"
 			
-				PChar->animation = ANIMATION_FISHING_FISH;
-                PChar->updatemask |= UPDATE_HP;
+				//PChar->animation = ANIMATION_FISHING_FISH;
+                //PChar->updatemask |= UPDATE_HP;
 				PChar->pushPacket(new CMessageTextPacket(PChar, MessageOffset + 0x08));
-				PChar->pushPacket(new CFishingPacket());
+                PChar->pushPacket(new CFishingPacket(10128, 128, 20, 500, 13, 140, 60, 0, 0));
 			}
 			else
 			{

@@ -1,13 +1,8 @@
 -----------------------------------
---  Area: Al Zahbi
---   NPC: Gaweesh
---  Type: Najelith's Attendant
--- @zone: 48
---  @pos -64.537 -8 37.928
--- 
--- Auto-Script: Requires Verification (Verified by Brawndo)
------------------------------------
-package.loaded["scripts/zones/Al_Zahbi/TextIDs"] = nil;
+-- Area: Al Zahbi
+--  NPC: Gaweesh
+-- Type: Najelith's Attendant
+-- !pos -64.537 -8 37.928 48
 -----------------------------------
 
 -----------------------------------
@@ -22,7 +17,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0102);
+    player:startEvent(0x0102);
 end;
 
 -----------------------------------
@@ -30,8 +25,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +34,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-

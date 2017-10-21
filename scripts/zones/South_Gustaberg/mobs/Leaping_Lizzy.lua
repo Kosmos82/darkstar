@@ -1,22 +1,18 @@
-----------------------------------	
--- Area: South Gustaberg	
--- NM:  Leaping Lizzy	
------------------------------------	
+----------------------------------
+-- Area: South Gustaberg
+--  NM:  Leaping Lizzy
+-----------------------------------
 
------------------------------------	
--- onMobDeath	
------------------------------------	
-	
-function onMobDeath(mob,killer)	
+-----------------------------------
+-- onMobDeath
+-----------------------------------
 
-    -- Set LL's ToD
-    SetServerVariable("[POP]Leaping_Lizzy", os.time(t) + 3600); -- 1 hour 
-    DeterMob(mob:getID(), true);
+function onMobDeath(mob, player, isKiller)
+end;
 
-    -- Set PH back to normal, then set to respawn spawn
-    PH = GetServerVariable("[PH]Leaping_Lizzy");
-    SetServerVariable("[PH]Leaping_Lizzy", 0);
-    DeterMob(PH, false);
-    GetMobByID(PH):setRespawnTime(GetMobRespawnTime(PH));
-  
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 end;

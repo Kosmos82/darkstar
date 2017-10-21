@@ -2,7 +2,7 @@
 --  Area: Selbina
 --  NPC: Velema
 --  Type: Standard NPC
---  @pos 28.164 -3.947 -12.788 248
+-- !pos 28.164 -3.947 -12.788 248
 -----------------------------------
 package.loaded["scripts/zones/Selbina/TextIDs"] = nil;
 -----------------------------------
@@ -21,7 +21,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x000a);
+    player:startEvent(0x000a);
 end;
 
 -----------------------------------
@@ -29,8 +29,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -38,7 +38,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

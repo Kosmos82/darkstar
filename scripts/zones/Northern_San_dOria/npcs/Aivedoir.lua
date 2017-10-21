@@ -2,8 +2,8 @@
 --  Area: Northern San d'Oria
 --  NPC: Aivedoir
 --  Type: Standard Dialogue NPC
---  @zone: 231
---  @pos -123.119 7.999 134.490
+--  @zone 231
+-- !pos -123.119 7.999 134.490
 --
 -----------------------------------
 
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc,AIVEDOIR_DIALOG);
+    player:showText(npc,AIVEDOIR_DIALOG);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

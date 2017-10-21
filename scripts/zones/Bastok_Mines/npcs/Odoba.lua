@@ -1,8 +1,8 @@
 -----------------------------------
 -- Area: Bastok Mines
 -- NPC: Odoba
--- Guild Merchant NPC: Alchemy Guild 
--- @pos 108.473 5.017 1.089 234
+-- Guild Merchant NPC: Alchemy Guild
+-- !pos 108.473 5.017 1.089 234
 -----------------------------------
 package.loaded["scripts/zones/Bastok_Mines/TextIDs"] = nil;
 -----------------------------------
@@ -23,9 +23,9 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	if(player:sendGuild(526,8,23,6)) then
-		player:showText(npc, ODOBA_SHOP_DIALOG);
-	end
+    if (player:sendGuild(526,8,23,6)) then
+        player:showText(npc, ODOBA_SHOP_DIALOG);
+    end
 end;
 
 -----------------------------------
@@ -33,8 +33,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,7 +42,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

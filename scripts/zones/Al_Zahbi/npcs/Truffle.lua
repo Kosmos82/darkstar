@@ -1,13 +1,8 @@
 -----------------------------------
---  Area: Al Zahbi
---   NPC: Truffle
---  Type: Standard NPC
--- @zone: 48
---  @pos 18.306 -1 53.761
--- 
--- Auto-Script: Requires Verification (Verified by Brawndo)
------------------------------------
-package.loaded["scripts/zones/Al_Zahbi/TextIDs"] = nil;
+-- Area: Al Zahbi
+--  NPC: Truffle
+-- Type: Standard NPC
+-- !pos 18.306 -1 53.761 48
 -----------------------------------
 
 -----------------------------------
@@ -22,7 +17,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x00f0);
+    player:startEvent(0x00f0);
 end;
 
 -----------------------------------
@@ -30,8 +25,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +34,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-

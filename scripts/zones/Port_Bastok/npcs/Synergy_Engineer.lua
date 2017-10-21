@@ -2,8 +2,8 @@
 --  Area: Port Bastok
 --   NPC: Synergy Engineer
 --  Type: Standard NPC
--- @zone: 236
---  @pos 37.700 -0.3 -50.500
+-- @zone 236
+-- !pos 37.700 -0.3 -50.500
 --
 -- Auto-Script: Requires Verification (Verified by Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x2afa);
+    player:startEvent(0x2afa);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

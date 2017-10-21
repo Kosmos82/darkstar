@@ -2,7 +2,7 @@
 --  Area: Mhaura
 --  NPC:  Katsunaga
 --  Type: Standard NPC
---  @pos -4.726 -2.148 23.183 249
+-- !pos -4.726 -2.148 23.183 249
 -----------------------------------
 package.loaded["scripts/zones/Mhaura/TextIDs"] = nil;
 -----------------------------------
@@ -19,7 +19,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x00be);
+    player:startEvent(0x00be);
 end;
 
 -----------------------------------
@@ -27,8 +27,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -36,7 +36,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

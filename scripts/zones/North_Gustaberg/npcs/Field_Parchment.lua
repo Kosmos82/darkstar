@@ -2,7 +2,7 @@
 --  Area: North Gustaberg
 --  NPC:  Field Parchment
 --  Type: Fields of Valor NMs
---  @pos 400.000 -21.5 560.000 106
+-- !pos 400.000 -21.5 560.000 106
 -----------------------------------
 package.loaded["scripts/zones/North_Gustaberg/TextIDs"] = nil;
 -----------------------------------
@@ -19,7 +19,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x07d1);
+    player:startEvent(0x07d1);
 end;
 
 -----------------------------------
@@ -27,8 +27,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -36,7 +36,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

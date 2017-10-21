@@ -22,12 +22,12 @@ local path = {
 
 function onSpawn(npc)
     npc:initNpcAi();
-	npc:setPos(pathfind.first(path));
-	onPath(npc);
+    npc:setPos(pathfind.first(path));
+    onPath(npc);
 end;
 
 function onPath(npc)
-	pathfind.patrol(npc, path);
+    pathfind.patrol(npc, path);
 end;
 
 -----------------------------------
@@ -42,16 +42,21 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x00BE);
-	npc:wait(-1);
+    if (player:getVar("BathedInScent") == 1) then
+        player:startEvent(0x00A3); -- scent from Blue Rafflesias
+        npc:wait(-1);
+    else
+    player:startEvent(0x00BE);
+    npc:wait(-1);
+    end
 end;
 -----------------------------------
 -- onEventUpdate
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -59,10 +64,8 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option,npc)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
     npc:wait(0);
 end;
-
-
 

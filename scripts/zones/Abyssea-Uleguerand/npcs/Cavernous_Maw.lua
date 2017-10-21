@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Abyssea - Uleguerand
 --  NPC: Cavernous Maw
--- @pos -246.000, -40.600, -520.000 253
+-- !pos -246.000, -40.600, -520.000 253
 -- Notes: Teleports Players to Xarcabard
 -----------------------------------
 package.loaded["scripts/zones/Abyssea-Uleguerand/TextIDs"] = nil;
@@ -41,7 +41,7 @@ end;
 function onEventFinish(player,csid,option)
     -- printf("CSID: %u",csid);
     -- printf("RESULT: %u",option);
-    if(csid == 0x00c8 and option == 1) then
+    if (csid == 0x00c8 and option == 1) then
         player:setPos(269,-7,-75,192,112);
     end
 end;

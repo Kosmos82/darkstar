@@ -29,24 +29,27 @@
 
 #include "baseentity.h"
 
-int32 close_door(uint32 tick,CTaskMgr::CTask *PTask); // закрываем дверь
-int32 open_door(uint32 tick,CTaskMgr::CTask *PTask);
-int32 disappear_npc(uint32 tick,CTaskMgr::CTask *PTask); // Used for showNPC lua function
-int32 reappear_npc(uint32 tick,CTaskMgr::CTask *PTask); // used for hideNPC lua function
-
 class CNpcEntity : public CBaseEntity {
 public:
 
-	uint32		m_flags;
-	uint8		name_prefix;
+    uint32      m_flags;
+    uint8       name_prefix;
+    uint8       widescan;
+    uint32      getEntityFlags();                        // Returns the current value in m_flags
+    void        setEntityFlags(uint32 EntityFlags);      // Change the current value in m_flags
+    void        HideModel(bool hide);                    // hide / show model
+    bool        IsModelHidden();
     void        HideHP(bool hide);
     bool        IsHPHidden();
     void        Untargetable(bool untargetable);
     bool        IsUntargetable();
-    void        UpdateEntity() override;
+    virtual void PostTick() override;
+    virtual void Tick(time_point) override {}
 
 	 CNpcEntity();				// конструктор
 	~CNpcEntity();				// деструктор
+
+
 private:
 };
 

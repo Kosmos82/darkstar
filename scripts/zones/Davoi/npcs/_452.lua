@@ -21,8 +21,8 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	npc:openDoor(3); -- lever animation
-	RunElevator(ELEVATOR_DAVOI_LIFT); -- elevator @450 (actual npc script is _454)
+    npc:openDoor(3); -- lever animation
+    RunElevator(ELEVATOR_DAVOI_LIFT); -- elevator @450 (actual npc script is _454)
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,6 +39,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option,npc)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;

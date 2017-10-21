@@ -2,8 +2,8 @@
 --  Area: Northern San d'Oria
 --  NPC: Gilipese
 --  Type: Standard Dialogue NPC
---  @zone: 231
---  @pos -155.088 0.000 120.300
+--  @zone 231
+-- !pos -155.088 0.000 120.300
 --
 -----------------------------------
 
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc,GILIPESE_DIALOG);
+    player:showText(npc,GILIPESE_DIALOG);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

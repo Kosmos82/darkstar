@@ -56,13 +56,12 @@ enum PARTYFLAG
 *																		*
 ************************************************************************/
 
-class CParty 
+class CParty
 {
 public:
-
-    CParty(CBattleEntity* PEntity, Sql_t* sql = SqlHandle);
+    CParty(CBattleEntity* PEntity);
 	CParty(uint32 id);
-	
+
     uint32 GetPartyID();                                // узнаем уникальный ID группы
     uint16 GetMemberFlags(CBattleEntity* PEntity);      // получаем список флагов персонажа
     uint8  MemberCount(uint16 ZoneID);                   // узнаем количество участников группы в указанной зоне
@@ -72,13 +71,13 @@ public:
     CBattleEntity* GetQuaterMaster();                   // узнаем владельца сокровищ
     CBattleEntity* GetMemberByName(const int8* MemberName);   // Returns entity pointer for member name string
 
-	void DisbandParty(bool playerInitiated = true, Sql_t* sql = SqlHandle);		// распускаем группу
+	void DisbandParty(bool playerInitiated = true);		// распускаем группу
 	void ReloadParty();                                 // перезагружаем карту группы для всех участников группы
 	void ReloadPartyMembers(CCharEntity* PChar);        // oбновляем статусы участников группы для выбранного персонажа
 	void ReloadTreasurePool(CCharEntity* PChar);
 
-    void AddMember(CBattleEntity* PEntity, Sql_t* Sql = SqlHandle); // добавляем персонажа в группу
-	void AddMember(uint32 id, Sql_t* Sql = SqlHandle);	// Add party member from outside this server's scope
+    void AddMember(CBattleEntity* PEntity); // добавляем персонажа в группу
+	void AddMember(uint32 id);	// Add party member from outside this server's scope
     void RemoveMember(CBattleEntity* PEntity);          // удаление персонажа из группы
 	void DelMember(CBattleEntity* PEntity);				// remove a member without invoking chat/db
     void PopMember(CBattleEntity* PEntity);             // remove a member from memberlist (zoned to different server)
@@ -91,7 +90,8 @@ public:
     void SetPartyNumber(uint8 number);
 
     void PushPacket(uint32 senderID, uint16 ZoneID, CBasicPacket* packet);		// отправляем пакет всем членам группы, за исключением PPartyMember
-	
+    void PushEffectsPacket();
+    void EffectsChanged();
 	CAlliance* m_PAlliance;
 
     // ВНИМАНИЕ: НЕ ИЗМЕНЯТЬ ЗНАЧЕНИЯ СПИСКА ВНЕ КЛАССА ГРУППЫ
@@ -100,20 +100,22 @@ public:
 
 private:
 
-	
+    struct partyInfo_t;
     uint32    m_PartyID;                                // уникальный ID группы
     PARTYTYPE m_PartyType;                              // тип существ, составляющих группу
     uint8     m_PartyNumber;                            // party number in alliance
-	
+
 	CBattleEntity* m_PLeader;                           // лидер группы
 	CBattleEntity* m_PSyncTarget;                       // цель синхронизации уровней
 	CBattleEntity* m_PQuaterMaster;                     // владелец сокровищ
 
+    bool m_EffectsChanged;
 
 	void SetLeader(const char* MemberName);                   // устанавливаем лидера группы
     void SetQuarterMaster(const char* MemberName);            // устанавливаем владельца сокровищ
-
 	void RemovePartyLeader(CBattleEntity* PEntity);     // лидер покидает группу
+    std::vector<partyInfo_t> GetPartyInfo();
+    void RefreshFlags(std::vector<partyInfo_t>&);
 };
 
 #endif

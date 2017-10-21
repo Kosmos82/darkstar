@@ -15,57 +15,58 @@ require("scripts/zones/Dragons_Aery/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
-
-    -- Fafnir
-    SetRespawnTime(17408018, 900, 10800);
-
+    if (LandKingSystem_NQ ~= 1) then
+        SetRespawnTime(17408018, 900, 10800); -- Fafnir
+    end
 end;
 
------------------------------------		
--- onZoneIn		
------------------------------------		
+-----------------------------------
+-- onZoneIn
+-----------------------------------
 
-function onZoneIn(player,prevZone)		
-	local cs = -1;	
-	if ((player:getXPos() == 0) and (player:getYPos() == 0) and (player:getZPos() == 0)) then	
-		player:setPos(-60.006,-2.915,-39.501,202);
-	end	
-	return cs;	
-end;		
+function onZoneIn(player,prevZone)
+    local cs = -1;
 
------------------------------------		
--- onConquestUpdate		
------------------------------------		
+    if ((player:getXPos() == 0) and (player:getYPos() == 0) and (player:getZPos() == 0)) then
+        player:setPos(-60.006,-2.915,-39.501,202);
+    end
+
+    return cs;
+end;
+
+-----------------------------------
+-- onConquestUpdate
+-----------------------------------
 
 function onConquestUpdate(zone, updatetype)
     local players = zone:getPlayers();
-    
+
     for name, player in pairs(players) do
         conquestUpdate(zone, player, updatetype, CONQUEST_BASE);
     end
 end;
 
------------------------------------		
--- onRegionEnter		
------------------------------------		
+-----------------------------------
+-- onRegionEnter
+-----------------------------------
 
-function onRegionEnter(player,region)	
-end;	
+function onRegionEnter(player,region)
+end;
 
------------------------------------	
--- onEventUpdate	
------------------------------------	
+-----------------------------------
+-- onEventUpdate
+-----------------------------------
 
-function onEventUpdate(player,csid,option)	
-	--printf("CSID: %u",csid);
-	--printf("RESULT: %u",option);
-end;	
+function onEventUpdate(player,csid,option)
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
+end;
 
------------------------------------	
--- onEventFinish	
------------------------------------	
+-----------------------------------
+-- onEventFinish
+-----------------------------------
 
-function onEventFinish(player,csid,option)	
-	--printf("CSID: %u",csid);
-	--printf("RESULT: %u",option);
-end;	
+function onEventFinish(player,csid,option)
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
+end;

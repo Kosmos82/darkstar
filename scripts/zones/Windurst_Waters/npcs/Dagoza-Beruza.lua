@@ -2,8 +2,8 @@
 --  Area: Windurst Waters
 --   NPC: Dagoza-Beruza
 --  Type: Mission NPC
--- @zone: 238
---  @pos -54.523 -6 229.271
+-- @zone 238
+-- !pos -54.523 -6 229.271
 --
 -- Auto-Script: Requires Verification (Verfied By Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0068);
+    player:startEvent(0x0068);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

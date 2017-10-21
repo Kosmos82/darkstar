@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: Valley of Sorrows
--- NPC:  Aspidochelone
+--  HNM: Aspidochelone
 -----------------------------------
 
 require("scripts/globals/settings");
@@ -15,27 +15,48 @@ function onMobInitialize(mob)
 end;
 
 -----------------------------------
+-- onMobSpawn
+-----------------------------------
+
+function onMobSpawn(mob)
+    if (LandKingSystem_NQ > 0 or LandKingSystem_HQ > 0) then
+        GetNPCByID(17301567):setStatus(STATUS_DISAPPEAR);
+    end
+end;
+
+-----------------------------------
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer)
+function onMobDeath(mob, player, isKiller)
+    player:addTitle(ASPIDOCHELONE_SINKER);
+end;
 
-    killer:addTitle(ASPIDOCHELONE_SINKER);
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Aspidochelone's Window Open Time
-    if (LandKingSystem_HQ == 0 or LandKingSystem_HQ == 2) then
-        local wait = 72 * 3600
-        SetServerVariable("[POP]Aspidochelone", os.time(t) + wait); -- 3 days
-        DeterMob(mob:getID(), true);
+    if (LandKingSystem_HQ ~= 1) then
+        local wait = 72 * 3600;
+        SetServerVariable("[POP]Aspidochelone", os.time() + wait); -- 3 days
+        if (LandKingSystem_HQ == 0) then -- Is time spawn only
+            DisallowRespawn(mob:getID(), true);
+        end
     end
 
     -- Set Adamantoise's spawnpoint and respawn time (21-24 hours)
-    if (LandKingSystem_NQ == 0 or LandKingSystem_NQ == 2) then
-        Adamantoise = 17301537;
+    if (LandKingSystem_NQ ~= 1) then
+        Adamantoise = mob:getID()-1;
         SetServerVariable("[PH]Aspidochelone", 0);
-        DeterMob(Adamantoise, false);
+        DisallowRespawn(Adamantoise, false);
         UpdateNMSpawnPoint(Adamantoise);
-        GetMobByID(Adamantoise):setRespawnTime(math.random((75600),(86400)));
+        GetMobByID(Adamantoise):setRespawnTime(math.random(75600,86400));
     end
 
+    if (LandKingSystem_NQ > 0 or LandKingSystem_HQ > 0) then
+        GetNPCByID(17301567):updateNPCHideTime(FORCE_SPAWN_QM_RESET_TIME);
+    end
 end;

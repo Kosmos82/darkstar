@@ -2,8 +2,8 @@
 --  Area: Ru'Lude Gardens
 --   NPC: Marshal
 --  Type: Marshal
--- @zone: 243
---  @pos 41.143 -0.998 -26.566
+-- @zone 243
+-- !pos 41.143 -0.998 -26.566
 --
 -- Auto-Script: Requires Verification (Verfied by Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x002c);
+    player:startEvent(0x002c);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

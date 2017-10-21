@@ -38,36 +38,17 @@
 #include "../packets/synth_message.h"
 #include "../packets/synth_result.h"
 
+#include "../item_container.h"
+#include "../map.h"
+#include "../trade_container.h"
+#include "../vana_time.h"
+
 #include "charutils.h"
 #include "itemutils.h"
-#include "../map.h"
 #include "synthutils.h"
-#include "../vana_time.h"
 #include "zoneutils.h"
 
 //#define _DSP_SYNTH_DEBUG_MESSAGES_ // включаем отладочные сообщения
-
-enum SYNTHESIS_ELEMENT
-{
-	ELEMENT_FIRE		= 0,
-	ELEMENT_EARTH		= 1,
-	ELEMENT_WATER		= 2,
-	ELEMENT_WIND		= 3,
-	ELEMENT_ICE			= 4,
-	ELEMENT_LIGHTNING	= 5,
-	ELEMENT_LIGHT		= 6,
-	ELEMENT_DARK		= 7
-};
-
-enum SYNTHESIS_RESULT
-{
-	SYNTHESIS_FAIL		= 0,
-	SYNTHESIS_SUCCESS	= 1,
-	SYNTHESIS_HQ		= 2,
-	SYNTHESIS_HQ2		= 3,
-	SYNTHESIS_HQ3		= 4
-};
-
 
 namespace synthutils
 {
@@ -193,18 +174,18 @@ double getSynthDifficulty(CCharEntity* PChar, uint8 skillID)
 	uint8  crystalElement = PChar->CraftContainer->getType();
 	uint8  direction = (PChar->loc.p.rotation - 16)/32;
 	uint8  strongElement[8] = {2,3,5,4,0,1,7,6};
-	uint16 ModID = 0;
+	Mod ModID = Mod::NONE;
 
 	switch (skillID)
 	{
-		case SKILL_WDW: ModID = MOD_WOOD;		break;
-		case SKILL_SMT: ModID = MOD_SMITH;		break;
-		case SKILL_GLD: ModID = MOD_GOLDSMITH;	break;
-		case SKILL_CLT: ModID = MOD_CLOTH;		break;
-		case SKILL_LTH: ModID = MOD_LEATHER;	break;
-		case SKILL_BON: ModID = MOD_BONE;		break;
-		case SKILL_ALC: ModID = MOD_ALCHEMY;	break;
-		case SKILL_COK: ModID = MOD_COOK;		break;
+		case SKILL_WOODWORKING:  ModID = Mod::WOOD;		break;
+		case SKILL_SMITHING:     ModID = Mod::SMITH;		break;
+		case SKILL_GOLDSMITHING: ModID = Mod::GOLDSMITH;	break;
+		case SKILL_CLOTHCRAFT:   ModID = Mod::CLOTH;		break;
+		case SKILL_LEATHERCRAFT: ModID = Mod::LEATHER;	break;
+		case SKILL_BONECRAFT:    ModID = Mod::BONE;		break;
+		case SKILL_ALCHEMY:      ModID = Mod::ALCHEMY;	break;
+		case SKILL_COOKING:      ModID = Mod::COOK;		break;
 	}
 
 	uint8 charSkill = PChar->RealSkills.skill[skillID]/10;  //player skill level is truncated before synth difficulty is calced
@@ -273,18 +254,18 @@ double getSynthDifficulty(CCharEntity* PChar, uint8 skillID)
 
 bool canSynthesizeHQ(CCharEntity* PChar, uint8 skillID)
 {
-	uint16 ModID = 0;
+	Mod ModID = Mod::NONE;
 
 	switch (skillID)
 	{
-		case SKILL_WDW: ModID = MOD_ANTIHQ_WOOD;	  break;
-		case SKILL_SMT: ModID = MOD_ANTIHQ_SMITH;	  break;
-		case SKILL_GLD: ModID = MOD_ANTIHQ_GOLDSMITH; break;
-		case SKILL_CLT: ModID = MOD_ANTIHQ_CLOTH;	  break;
-		case SKILL_LTH: ModID = MOD_ANTIHQ_LEATHER;	  break;
-		case SKILL_BON: ModID = MOD_ANTIHQ_BONE;	  break;
-		case SKILL_ALC: ModID = MOD_ANTIHQ_ALCHEMY;	  break;
-		case SKILL_COK: ModID = MOD_ANTIHQ_COOK;	  break;
+		case SKILL_WOODWORKING:  ModID = Mod::ANTIHQ_WOOD;	  break;
+		case SKILL_SMITHING:     ModID = Mod::ANTIHQ_SMITH;	  break;
+		case SKILL_GOLDSMITHING: ModID = Mod::ANTIHQ_GOLDSMITH; break;
+		case SKILL_CLOTHCRAFT:   ModID = Mod::ANTIHQ_CLOTH;	  break;
+		case SKILL_LEATHERCRAFT: ModID = Mod::ANTIHQ_LEATHER;	  break;
+		case SKILL_BONECRAFT:    ModID = Mod::ANTIHQ_BONE;	  break;
+		case SKILL_ALCHEMY:      ModID = Mod::ANTIHQ_ALCHEMY;	  break;
+		case SKILL_COOKING:      ModID = Mod::ANTIHQ_COOK;	  break;
 	}
 
 	return (PChar->getMod(ModID) != 0 ? false : true);
@@ -326,7 +307,7 @@ uint8 getGeneralCraft(CCharEntity* PChar)
 
 uint8 calcSynthResult(CCharEntity* PChar)
 {
-	uint8 result = 1;
+	uint8 result = SYNTHESIS_SUCCESS;
 	uint8 hqtier = 0;
 	uint8 mainID = getGeneralCraft(PChar);
 	bool canHQ = true;
@@ -350,16 +331,16 @@ uint8 calcSynthResult(CCharEntity* PChar)
 			{
 				success = 0.95;
 
-				if((synthDiff <= 0) && (synthDiff >= -10))
+				if(synthDiff > -11) //0-10 levels over recipe
 				{
 					success -= (double)(PChar->CraftContainer->getType() == ELEMENT_LIGHTNING) * 0.2;
 					hqtier = 1;
 				}
-				else if((synthDiff <= -11) && (synthDiff >= -30))
+				else if(synthDiff > -31) //11-30 levels over recipe
 					hqtier = 2;
-				else if((synthDiff <= -31) && (synthDiff >= -50))
+				else if(synthDiff > -51) //31-50 levels over recipe
 					hqtier = 3;
-				else if(synthDiff <= -51)
+				else //51+ levels over recipe
 					hqtier = 4;
 			}
 			else
@@ -374,76 +355,97 @@ uint8 calcSynthResult(CCharEntity* PChar)
 				#endif
 			}
 
+			// Apply synthesis success rate modifier
+			int16 modSynthSuccess = PChar->getMod(Mod::SYNTH_SUCCESS);
+			success += (double)modSynthSuccess * 0.01;
+
             if(!canSynthesizeHQ(PChar,skillID))
             {
                 success += 0.01; //the crafting rings that block HQ synthesis all also increase their respective craft's success rate by 1%
                 canHQ = false; //assuming here that if a crafting ring is used matching a recipe's subsynth, overall HQ will still be blocked
             }
 
-			double random = WELL512::drand();
+			if (success > 0.99)
+			{
+				// Clamp success rate to 0.99
+				// Even if using kitron macaron, breaks can still happen
+				// https://www.bluegartr.com/threads/120352-CraftyMath
+				//   "I get a 99% success rate, so Kitron is doing something and it's not small."
+				// http://www.ffxiah.com/item/5781/kitron-macaron
+				//   "According to one of the Japanese wikis, it is said to decrease the minimum break rate from ~5% to 0.5%-2%."
+				success = 0.99;
+			}
+
+			double random = dsprand::GetRandomNumber(1.);
 			#ifdef _DSP_SYNTH_DEBUG_MESSAGES_
 			ShowDebug(CL_CYAN"Success: %g  Random: %g\n" CL_RESET, success, random);
 			#endif
 
 			if(random < success)
 			{
-				for(uint8 i = 0; i < 3; ++i)
+                if(mainID == skillID)
 				{
-					if(mainID != skillID)
-					    break;
-					
-					random = WELL512::drand();
-					
+                    random = dsprand::GetRandomNumber(1.);
+
 					switch(hqtier)
 					{
-						//case 5:  chance = 0.700; break; 
-						//Removed - HQ rate caps at 50%
 						case 4:  chance = 0.500; break;
 						case 3:  chance = 0.300; break;
 						case 2:  chance = 0.100; break;
 						case 1:  chance = 0.015; break;
 						default: chance = 0.000; break;
 					}
-					
+
 					if(chance > 0)
 					{
-						chance *= 1.0 - (MoonPhase - 50)/150;  //new moon +33% of base rate bonus to hq chance, full moon -33%, corresponding/weakday/lightsday -33%, opposing/darksday +33%
-						if (crystalElement == WeekDay)
-							chance *= 1.0 - ((double)1/3);
-						else if (strongElement[crystalElement] == WeekDay)
-							chance *= 1.0 + ((double)1/3);
-						else if (strongElement[WeekDay] == crystalElement)
-							chance *= 1.0 - ((double)1/3);
-						else if (WeekDay == LIGHTSDAY)
-							chance *= 1.0 - ((double)1/3);
-						else if (WeekDay == DARKSDAY)
-							chance *= 1.0 + ((double)1/3);
+                        if (map_config.craft_moonphase_matters)
+                            chance *= 1.0 - (MoonPhase - 50)/150;  //new moon +33% of base rate bonus to hq chance, full moon -33%, corresponding/weakday/lightsday -33%, opposing/darksday +33%
+						
+                        if (map_config.craft_day_matters)
+                        {
+                            if (crystalElement == WeekDay)
+                                chance *= 1.0 - ((double)1 / 3);
+                            else if (strongElement[crystalElement] == WeekDay)
+                                chance *= 1.0 + ((double)1 / 3);
+                            else if (strongElement[WeekDay] == crystalElement)
+                                chance *= 1.0 - ((double)1 / 3);
+                            else if (WeekDay == LIGHTSDAY)
+                                chance *= 1.0 - ((double)1 / 3);
+                            else if (WeekDay == DARKSDAY)
+                                chance *= 1.0 + ((double)1 / 3);
+                        }
+
+                        chance = dsp_cap(chance, 0., 0.500);
 					}
-					
-					if(chance > 0.500)
-					    chance = 0.500;
-					
+
 					#ifdef _DSP_SYNTH_DEBUG_MESSAGES_
 					ShowDebug(CL_CYAN"HQ Tier: %i HQ Chance: %g Random: %g SkillID: %u\n" CL_RESET, hqtier, chance, random, skillID);
 					#endif
-					
-					if(chance < random)
-						break;
-					result += 1;
-					hqtier -= 1;
+
+                    if (random < chance && canHQ)
+                    {
+                        random = dsprand::GetRandomNumber(0, 16);
+
+                        if (random == 0)
+                            result = SYNTHESIS_HQ3;
+                        else if (random < 4)
+                            result = SYNTHESIS_HQ2;
+                        else
+                            result = SYNTHESIS_HQ;
+
+                    }
 				}
-			}else{
+			}
+            else
+            {
 				// сохраняем умение, из-за которого синтез провалился.
 				// используем slotID ячейки кристалла, т.к. он был удален еще в начале синтеза
 				PChar->CraftContainer->setInvSlotID(0,skillID);
-				result = 0;
+				result = SYNTHESIS_FAIL;
 				break;
 			}
 		}
 	}
-
-	if(result > SYNTHESIS_SUCCESS && !canHQ)
-		result = SYNTHESIS_SUCCESS;
 
 	// результат синтеза записываем в поле quantity ячейки кристалла.
 	PChar->CraftContainer->setQuantity(0, result);
@@ -496,54 +498,35 @@ uint8 calcSynthResult(CCharEntity* PChar)
 
 int32 doSynthSkillUp(CCharEntity* PChar)
 {
-	//if (PChar->CraftContainer->getType() == ELEMENT_LIGHTNING)
-	//{
-	//	return 0;
-	//} bad idea, you cannot synth any item with lightning crystal
-
-//	double MoonPhase = (double)CVanaTime::getInstance()->getMoonPhase();
-//	double MoonCorrection = MoonPhase / 500;
-//  removed: there's no evidence that moon phase directly modifies skill up rate
-
-
 	for(uint8 skillID = 49; skillID < 57; ++skillID)
 	{
 		if (PChar->CraftContainer->getQuantity(skillID-40) == 0)	// получаем необходимый уровень умения рецепта
 		{
 			continue;
 		}
-		
-		uint16 ModID = 0;
-		switch (skillID)
-		{
-			case SKILL_WDW: ModID = MOD_WOOD;		break;
-			case SKILL_SMT: ModID = MOD_SMITH;		break;
-			case SKILL_GLD: ModID = MOD_GOLDSMITH;	break;
-			case SKILL_CLT: ModID = MOD_CLOTH;		break;
-			case SKILL_LTH: ModID = MOD_LEATHER;	break;
-			case SKILL_BON: ModID = MOD_BONE;		break;
-			case SKILL_ALC: ModID = MOD_ALCHEMY;	break;
-			case SKILL_COK: ModID = MOD_COOK;		break;
-		}
 
 		uint8  skillRank = PChar->RealSkills.rank[skillID];
 		uint16 maxSkill  = (skillRank+1)*100;
 
 		int32  charSkill = PChar->RealSkills.skill[skillID];
-		int32  basDiff   = PChar->CraftContainer->getQuantity(skillID-40) - (charSkill/10 + PChar->getMod(ModID)); //the 5 lvl difference rule for breaks does consider the effects of image support/gear
-		double synthDiff = getSynthDifficulty(PChar, skillID);
+		int32  baseDiff   = PChar->CraftContainer->getQuantity(skillID-40) - charSkill/10; //the 5 lvl difference rule for breaks does NOT consider the effects of image support/gear
 
-		if ((basDiff <= 0) || ((basDiff > 5) && (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL)))		// результат синтеза хранится в quantity нулевой ячейки
+		if ((baseDiff <= 0) || ((baseDiff > 5) && (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL)))		// результат синтеза хранится в quantity нулевой ячейки
 		{
 			continue;
 		}
 
 		if (charSkill < maxSkill)
 		{
-			double skillUpChance = (synthDiff*(map_config.craft_chance_multiplier - (log(1.2 + charSkill/100))))/10;
+			double skillUpChance = ((double)baseDiff*(map_config.craft_chance_multiplier - (log(1.2 + charSkill/100))))/10;
+
+			// Apply synthesis skill gain rate modifier before synthesis fail modifier
+			int16 modSynthSkillGain = PChar->getMod(Mod::SYNTH_SKILL_GAIN);
+			skillUpChance += (double)modSynthSkillGain * 0.01;
+
 			skillUpChance = skillUpChance/(1 + (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL));		// результат синтеза хранится в quantity нулевой ячейки
 
-			double random = WELL512::drand();
+            double random = dsprand::GetRandomNumber(1.);
 			#ifdef _DSP_SYNTH_DEBUG_MESSAGES_
 			ShowDebug(CL_CYAN"Skill up chance: %g  Random: %g\n" CL_RESET, skillUpChance, random);
 			#endif
@@ -554,22 +537,20 @@ int32 doSynthSkillUp(CCharEntity* PChar)
 				int32  skillAmount  = 1;
 				double chance = 0;
 
-				if((synthDiff >= 1) && (synthDiff < 3)){
+				if((baseDiff >= 1) && (baseDiff < 3))
 					satier = 1;
-				}else if((synthDiff >= 3) && (synthDiff < 5)){
+				else if((baseDiff >= 3) && (baseDiff < 5))
 					satier = 2;
-				}else if((synthDiff >= 5) && (synthDiff < 8)){
+				else if((baseDiff >= 5) && (baseDiff < 8))
 					satier = 3;
-				}else if((synthDiff >= 8) && (synthDiff < 10)){
+				else if((baseDiff >= 8) && (baseDiff < 10))
 					satier = 4;
-				}else if (synthDiff >= 10)
+				else if (baseDiff >= 10)
 					satier = 5;
-				//if (skillRank > 5)
-				//	satier--;
 
 				for(uint8 i = 0; i < 4; i ++)
 				{
-					random = WELL512::drand();
+                    random = dsprand::GetRandomNumber(1.);
 					#ifdef _DSP_SYNTH_DEBUG_MESSAGES_
 					ShowDebug(CL_CYAN"SkillAmount Tier: %i  Random: %g\n" CL_RESET, satier, random);
 					#endif
@@ -583,10 +564,12 @@ int32 doSynthSkillUp(CCharEntity* PChar)
 						case 1:  chance = 0.200; break;
 						default: chance = 0.000; break;
 					}
-					if(chance < random)
-						break;
-					skillAmount += 1;
-					satier -= 1;
+					
+                    if(chance < random)
+                        break;
+					
+                    skillAmount++;
+                    satier--;
 				}
 
 				// Do craft amount multiplier
@@ -656,14 +639,14 @@ int32 doSynthFail(CCharEntity* PChar)
 		{
 			switch (carrentCraft)
 			{
-				case SKILL_WDW:	 moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_WOODWORKING);	 break;
-				case SKILL_SMT:	 moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_SMITHING);	 break;
-				case SKILL_GLD:	 moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_GOLDSMITHING); break;
-				case SKILL_CLT:	 moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_CLOTHCRAFT);	 break;
-				case SKILL_LTH:	 moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_LEATHERCRAFT); break;
-				case SKILL_BON:	 moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_BONECRAFT);	 break;
-				case SKILL_ALC:	 moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_ALCHEMY);		 break;
-				case SKILL_COK:	 moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_COOKING);		 break;
+				case SKILL_WOODWORKING:  moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_WOODWORKING);	 break;
+				case SKILL_SMITHING:     moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_SMITHING);	 break;
+				case SKILL_GOLDSMITHING: moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_GOLDSMITHING); break;
+				case SKILL_CLOTHCRAFT:   moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_CLOTHCRAFT);	 break;
+				case SKILL_LEATHERCRAFT: moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_LEATHERCRAFT); break;
+				case SKILL_BONECRAFT:    moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_BONECRAFT);	 break;
+				case SKILL_ALCHEMY:      moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_ALCHEMY);		 break;
+				case SKILL_COOKING:      moghouseAura = 0.075 * charutils::hasKeyItem(PChar,MOGLIFICATION_COOKING);		 break;
 			}
 		}
 
@@ -671,14 +654,14 @@ int32 doSynthFail(CCharEntity* PChar)
 		{
 			switch (carrentCraft)
 			{
-				case SKILL_WDW:	 moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_WOODWORKING);  break;
-				case SKILL_SMT:	 moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_SMITHING);		break;
-				case SKILL_GLD:	 moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_GOLDSMITHING);	break;
-				case SKILL_CLT:	 moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_CLOTHCRAFT);	break;
-				case SKILL_LTH:	 moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_LEATHERCRAFT);	break;
-				case SKILL_BON:	 moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_BONECRAFT);	break;
-				case SKILL_ALC:	 moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_ALCHEMY);		break;
-				case SKILL_COK:	 moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_COOKING);		break;
+				case SKILL_WOODWORKING:  moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_WOODWORKING);  break;
+				case SKILL_SMITHING:     moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_SMITHING);		break;
+				case SKILL_GOLDSMITHING: moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_GOLDSMITHING);	break;
+				case SKILL_CLOTHCRAFT:   moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_CLOTHCRAFT);	break;
+				case SKILL_LEATHERCRAFT: moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_LEATHERCRAFT);	break;
+				case SKILL_BONECRAFT:    moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_BONECRAFT);	break;
+				case SKILL_ALCHEMY:      moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_ALCHEMY);		break;
+				case SKILL_COOKING:      moghouseAura = 0.1 * charutils::hasKeyItem(PChar,MEGA_MOGLIFICATION_COOKING);		break;
 			}
 		}
 	}
@@ -697,7 +680,7 @@ int32 doSynthFail(CCharEntity* PChar)
 		if (slotID != 8)
 			nextSlotID = PChar->CraftContainer->getInvSlotID(slotID+1);
 
-		random = WELL512::drand();
+        random = dsprand::GetRandomNumber(1.);
 		#ifdef _DSP_SYNTH_DEBUG_MESSAGES_
 		ShowDebug(CL_CYAN"Lost Item: %g  Random: %g\n" CL_RESET, lostItem, random);
 		#endif
@@ -735,14 +718,10 @@ int32 doSynthFail(CCharEntity* PChar)
 	}
 
     if(PChar->loc.zone->GetID() != 255 && PChar->loc.zone->GetID() != 0)
-    {
 		PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE, new CSynthResultMessagePacket(PChar, SYNTH_FAIL));
-		PChar->pushPacket(new CSynthMessagePacket(PChar, SYNTH_FAIL));
-    }
-    else
-    {
-        PChar->pushPacket(new CSynthMessagePacket(PChar, SYNTH_FAIL));
-    }
+
+    PChar->pushPacket(new CSynthMessagePacket(PChar, SYNTH_FAIL, 29695));
+
 
 	return 0;
 }
@@ -756,6 +735,7 @@ int32 doSynthFail(CCharEntity* PChar)
 
 int32 startSynth(CCharEntity* PChar)
 {
+    PChar->m_LastSynthTime = server_clock::now();
 	uint16 effect  = 0;
 	uint8  element = 0;
 

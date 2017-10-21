@@ -2,7 +2,7 @@
 -- Area: Selbina
 -- NPC:  Humilitie
 -- Reports the time remaining before boat arrival.
--- @pos 17.979 -2.39 -58.800 248
+-- !pos 17.979 -2.39 -58.800 248
 -----------------------------------
 package.loaded["scripts/zones/Selbina/TextIDs"] = nil;
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 
 function onTrigger(player,npc)
 
-   -- Based on /scripts/zones/Mhaura/Dieh_Yamilsiah.lua
+   -- Based on scripts/zones/Mhaura/Dieh_Yamilsiah.lua
    local timer = 1152 - ((os.time() - 1009810800)%1152);
    local direction = 0; -- Arrive, 1 for depart
    local waiting = 216; -- Offset for Mhaura
@@ -41,8 +41,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
--- printf("CSID: %u",csid);
--- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -50,6 +50,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
--- printf("CSID: %u",csid);
--- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;

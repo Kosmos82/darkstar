@@ -42,13 +42,13 @@ void queue_message(uint64 ipp, MSGSERVTYPE type, zmq::message_t* extra, zmq::mes
 
     msg.type = type;
 
-    msg.data = new zmq::message_t(extra->size());
-    memcpy(msg.data->data(), extra->data(), extra->size());
+    msg.data = zmq::message_t(extra->size());
+    memcpy(msg.data.data(), extra->data(), extra->size());
 
-    msg.packet = new zmq::message_t(packet->size());
-    memcpy(msg.packet->data(), packet->data(), packet->size());
+    msg.packet = zmq::message_t(packet->size());
+    memcpy(msg.packet.data(), packet->data(), packet->size());
 
-    msg_queue.push(msg);
+    msg_queue.push(std::move(msg));
 }
 
 void message_server_send(uint64 ipp, MSGSERVTYPE type, zmq::message_t* extra, zmq::message_t* packet)
@@ -73,7 +73,7 @@ void message_server_send(uint64 ipp, MSGSERVTYPE type, zmq::message_t* extra, zm
     }
     catch (zmq::error_t e)
     {
-        ShowError("Message: %s", e.what());
+        ShowError("Message: %s\n", e.what());
     }
 }
 
@@ -94,12 +94,12 @@ void message_server_parse(MSGSERVTYPE type, zmq::message_t* extra, zmq::message_
     case MSG_LINKSHELL_RANK_CHANGE:
     case MSG_LINKSHELL_REMOVE:
     {
-        int8* query = "SELECT server_addr, server_port FROM accounts_sessions LEFT JOIN chars ON \
+        const char* query = "SELECT server_addr, server_port FROM accounts_sessions LEFT JOIN chars ON \
                       				accounts_sessions.charid = chars.charid WHERE charname = '%s' LIMIT 1; ";
         ret = Sql_Query(ChatSqlHandle, query, (int8*)extra->data() + 4);
         if (Sql_NumRows(ChatSqlHandle) == 0)
         {
-            int8* query = "SELECT server_addr, server_port FROM accounts_sessions WHERE charid = %d LIMIT 1;";
+            query = "SELECT server_addr, server_port FROM accounts_sessions WHERE charid = %d LIMIT 1;";
             ret = Sql_Query(ChatSqlHandle, query, RBUFL(extra->data(), 0));
         }
         break;
@@ -108,29 +108,29 @@ void message_server_parse(MSGSERVTYPE type, zmq::message_t* extra, zmq::message_
     case MSG_PT_RELOAD:
     case MSG_PT_DISBAND:
     {
-        int8* query = "SELECT server_addr, server_port, MIN(charid) FROM accounts_sessions JOIN accounts_parties USING (charid) \
-                      							WHERE IF (allianceid <> 0, allianceid = (SELECT MAX(allianceid) FROM accounts_sessions WHERE partyid = %d), partyid = %d) GROUP BY server_addr, server_port; ";
+        const char* query = "SELECT server_addr, server_port, MIN(charid) FROM accounts_sessions JOIN accounts_parties USING (charid) \
+                      							WHERE IF (allianceid <> 0, allianceid = (SELECT MAX(allianceid) FROM accounts_parties WHERE partyid = %d), partyid = %d) GROUP BY server_addr, server_port; ";
         uint32 partyid = RBUFL(extra->data(), 0);
         ret = Sql_Query(ChatSqlHandle, query, partyid, partyid);
         break;
     }
     case MSG_CHAT_LINKSHELL:
     {
-        int8* query = "SELECT server_addr, server_port FROM accounts_sessions \
+        const char* query = "SELECT server_addr, server_port FROM accounts_sessions \
                       						WHERE linkshellid1 = %d OR linkshellid2 = %d GROUP BY server_addr, server_port; ";
         ret = Sql_Query(ChatSqlHandle, query, RBUFL(extra->data(), 0), RBUFL(extra->data(), 0));
         break;
     }
     case MSG_CHAT_YELL:
     {
-        int8* query = "SELECT zoneip, zoneport FROM zone_settings WHERE misc & 1024 GROUP BY zoneip, zoneport;";
+        const char* query = "SELECT zoneip, zoneport FROM zone_settings WHERE misc & 1024 GROUP BY zoneip, zoneport;";
         ret = Sql_Query(ChatSqlHandle, query);
         ipstring = true;
         break;
     }
     case MSG_CHAT_SERVMES:
     {
-        int8* query = "SELECT zoneip, zoneport FROM zone_settings GROUP BY zoneip, zoneport;";
+        const char* query = "SELECT zoneip, zoneport FROM zone_settings GROUP BY zoneip, zoneport;";
         ret = Sql_Query(ChatSqlHandle, query);
         ipstring = true;
         break;
@@ -138,8 +138,9 @@ void message_server_parse(MSGSERVTYPE type, zmq::message_t* extra, zmq::message_
     case MSG_PT_INVITE:
     case MSG_PT_INV_RES:
     case MSG_DIRECT:
+    case MSG_SEND_TO_ZONE:
     {
-        int8* query = "SELECT server_addr, server_port FROM accounts_sessions WHERE charid = %d; ";
+        const char* query = "SELECT server_addr, server_port FROM accounts_sessions WHERE charid = %d; ";
         ret = Sql_Query(ChatSqlHandle, query, RBUFL(extra->data(), 0));
         break;
     }
@@ -162,7 +163,7 @@ void message_server_parse(MSGSERVTYPE type, zmq::message_t* extra, zmq::message_
             }
             uint64 port = Sql_GetUIntData(ChatSqlHandle, 1);
             in_addr target;
-            target.s_addr = ip;
+            target.s_addr = (unsigned long)ip;
             ShowDebug("Message:  -> rerouting to %s:%lu\n", inet_ntoa(target), port);
             ip |= (port << 32);
             if (type == MSG_CHAT_PARTY || type == MSG_PT_RELOAD || type == MSG_PT_DISBAND)
@@ -192,9 +193,10 @@ void message_server_listen()
                     std::lock_guard<std::mutex>lk(queue_mutex);
                     while (!msg_queue.empty())
                     {
-                        chat_message_t msg = msg_queue.front();
+                        chat_message_t& msg = msg_queue.front();
+                        message_server_send(msg.dest, msg.type, &msg.data, &msg.packet);
+
                         msg_queue.pop();
-                        message_server_send(msg.dest, msg.type, msg.data, msg.packet);
                     }
                 }
                 continue;
@@ -219,7 +221,9 @@ void message_server_listen()
         }
         catch (zmq::error_t e)
         {
-            if (!zSocket)
+            // Context was terminated
+            // Exit loop
+            if (!zSocket || e.num() == 156384765)
             {
                 return;
             }
@@ -232,43 +236,45 @@ void message_server_listen()
 
 void message_server_init()
 {
-	ChatSqlHandle = Sql_Malloc();
+    ChatSqlHandle = Sql_Malloc();
 
-	if (Sql_Connect(ChatSqlHandle, login_config.mysql_login,
-		login_config.mysql_password,
-		login_config.mysql_host,
-		login_config.mysql_port,
-		login_config.mysql_database) == SQL_ERROR)
-	{
-		exit(EXIT_FAILURE);
-	}
-	Sql_Keepalive(ChatSqlHandle);
+    if (Sql_Connect(ChatSqlHandle, login_config.mysql_login.c_str(),
+        login_config.mysql_password.c_str(),
+        login_config.mysql_host.c_str(),
+        login_config.mysql_port,
+        login_config.mysql_database.c_str()) == SQL_ERROR)
+    {
+        exit(EXIT_FAILURE);
+    }
+    Sql_Keepalive(ChatSqlHandle);
 
-	zContext = zmq::context_t(1);
-	zSocket = new zmq::socket_t(zContext, ZMQ_ROUTER);
+    zContext = zmq::context_t(1);
+    zSocket = new zmq::socket_t(zContext, ZMQ_ROUTER);
 
     uint32 to = 500;
     zSocket->setsockopt(ZMQ_RCVTIMEO, &to, sizeof to);
 
-	string_t server = "tcp://";
+    string_t server = "tcp://";
     server.append(login_config.msg_server_ip);
-	server.append(":");
+    server.append(":");
     server.append(std::to_string(login_config.msg_server_port));
 
-	try
-	{
-		zSocket->bind(server.c_str());
-	}
-	catch (zmq::error_t err)
-	{
-		ShowFatalError("Unable to bind chat socket: %s\n", err.what());
-	}
+    try
+    {
+        zSocket->bind(server.c_str());
+    }
+    catch (zmq::error_t err)
+    {
+        ShowFatalError("Unable to bind chat socket: %s\n", err.what());
+    }
 
-	message_server_listen();
+    message_server_listen();
 }
 
 void message_server_close()
 {
+    Sql_Free(ChatSqlHandle);
+
     zContext.close();
     if (zSocket)
     {

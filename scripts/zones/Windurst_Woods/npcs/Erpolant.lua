@@ -2,8 +2,8 @@
 --  Area: Windurst Woods
 --   NPC: Erpolant
 --  Type: Standard NPC
--- @zone: 241
---  @pos -63.224 -0.749 -33.424
+-- @zone 241
+-- !pos -63.224 -0.749 -33.424
 --
 -- Auto-Script: Requires Verification (Verfied by Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x01bc);
+    player:startEvent(0x01bc);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

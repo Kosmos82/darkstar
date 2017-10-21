@@ -1,23 +1,30 @@
 -----------------------------------
---  Area: Batallia Downs (105)
---   Mob: Tottering_Toby
+-- Area: Batallia Downs (105)
+--  MOB: Tottering_Toby
 -----------------------------------
 
 -----------------------------------
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer)	
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Tottering_Toby's Window Open Time
-    wait = math.random((3600),(10800));
-    SetServerVariable("[POP]Tottering_Toby", os.time(t) + wait); -- 1-6 hours
-    DeterMob(mob:getID(), true);
-    
+    local wait = math.random((3600),(10800));
+    SetServerVariable("[POP]Tottering_Toby", os.time() + wait); -- 1-6 hours
+    DisallowRespawn(mob:getID(), true);
+
     -- Set PH back to normal, then set to respawn spawn
-    PH = GetServerVariable("[PH]Tottering_Toby");
+    local PH = GetServerVariable("[PH]Tottering_Toby");
     SetServerVariable("[PH]Tottering_Toby", 0);
-    DeterMob(PH, false);
+    DisallowRespawn(PH, false);
     GetMobByID(PH):setRespawnTime(GetMobRespawnTime(PH));
 
 end;

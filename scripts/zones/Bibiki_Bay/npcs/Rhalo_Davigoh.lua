@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Bibiki Bay
 -- NPC:  Rhalo Davigoh
--- @pos -407 -3 -419 4
+-- !pos -407 -3 -419 4
 -----------------------------------
 
 package.loaded["scripts/zones/Bibiki_Bay/TextIDs"] = nil;
@@ -21,7 +21,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0026);
+    player:startEvent(0x0026);
 end;
 
 -----------------------------------
@@ -29,8 +29,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -38,6 +38,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;

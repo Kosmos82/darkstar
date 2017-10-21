@@ -1,25 +1,32 @@
------------------------------------	
+-----------------------------------
 -- Area: Bhaflau Thickets
--- NM: Emergent Elm
--- @pos 71.000 -33.000 627.000 52
------------------------------------	
+--  NM:  Emergent Elm
+-- !pos 71.000 -33.000 627.000 52
+-----------------------------------
 
-require("/scripts/zones/Bhaflau_Thickets/MobIDs");
-	
------------------------------------	
--- onMobDeath	
------------------------------------	
-	
-function onMobDeath(mob,killer)	
+require("scripts/zones/Bhaflau_Thickets/MobIDs");
+
+-----------------------------------
+-- onMobDeath
+-----------------------------------
+
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set EE's ToD
-    SetServerVariable("[POP]Emergent_Elm", os.time(t) + 14400); -- 4 hours
-    DeterMob(mob:getID(), true);
+    SetServerVariable("[POP]Emergent_Elm", os.time() + 14400); -- 4 hours
+    DisallowRespawn(mob:getID(), true);
 
     -- Set PH back to normal, then set to respawn spawn
-    PH = GetServerVariable("[PH]Emergent_Elm");
+    local PH = GetServerVariable("[PH]Emergent_Elm");
     SetServerVariable("[PH]Emergent_Elm", 0);
-    DeterMob(PH, false);
+    DisallowRespawn(PH, false);
     GetMobByID(PH):setRespawnTime(GetMobRespawnTime(PH));
-  
+
 end;

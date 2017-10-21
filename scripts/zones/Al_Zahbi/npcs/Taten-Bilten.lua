@@ -2,7 +2,7 @@
 --  Area: Al Zahbi
 --  NPC: Taten-Bilten
 --  Guild Merchant NPC: Clothcraft Guild
---  @pos 71.598 -6.000 -56.930 48
+-- !pos 71.598 -6.000 -56.930 48
 -----------------------------------
 package.loaded["scripts/zones/Al_Zahbi/TextIDs"] = nil;
 -----------------------------------
@@ -23,9 +23,9 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	if(player:sendGuild(60430,6,21,0)) then
-		player:showText(npc,TATEN_BILTEN_SHOP_DIALOG);
-	end
+    if (player:sendGuild(60430,6,21,0)) then
+        player:showText(npc,TATEN_BILTEN_SHOP_DIALOG);
+    end
 end;
 
 -----------------------------------
@@ -33,8 +33,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,7 +42,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

@@ -1,9 +1,8 @@
 -----------------------------------
---  Area: Bastok Markets
---   NPC: Hildith
---  Type: Room Renters
--- @zone: 235
---  @pos -176.664 -9 25.158
+-- Area: Bastok Markets
+--  NPC: Hildith
+-- Type: Room Renters
+-- !pos -176.664 -9 25.158 235
 -----------------------------------
 
 -----------------------------------
@@ -18,7 +17,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x01E8);
+    player:startEvent(0x01E8);
 end;
 
 -----------------------------------
@@ -26,8 +25,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -35,7 +34,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-

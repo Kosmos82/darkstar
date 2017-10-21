@@ -2,7 +2,7 @@
 -- Area: Metalworks
 -- NPC:  Amulya
 -- Type: Guild Merchant (Blacksmithing Guild)
--- @pos -106.093 0.999 -24.564 237
+-- !pos -106.093 0.999 -24.564 237
 -----------------------------------
 package.loaded["scripts/zones/Metalworks/TextIDs"] = nil;
 -----------------------------------
@@ -23,9 +23,9 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	if(player:sendGuild(5332,8,23,2)) then
-		player:showText(npc, AMULYA_SHOP_DIALOG);
-	end
+    if (player:sendGuild(5332,8,23,2)) then
+        player:showText(npc, AMULYA_SHOP_DIALOG);
+    end
 end;
 
 -----------------------------------
@@ -33,8 +33,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,7 +42,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

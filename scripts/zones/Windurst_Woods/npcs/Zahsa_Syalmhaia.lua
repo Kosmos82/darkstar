@@ -1,13 +1,8 @@
 -----------------------------------
---  Area: Windurst Woods
---   NPC: Zahsa Syalmhaia
---  Type: Great War Veteran NPC
--- @zone: 241
---  @pos 13.710 1.422 -83.198
---
--- Auto-Script: Requires Verification (Verfied by Brawndo)
------------------------------------
-package.loaded["scripts/zones/Windurst_Woods/TextIDs"] = nil;
+-- Area: Windurst Woods
+--  NPC: Zahsa Syalmhaia
+-- Type: Great War Veteran NPC
+-- !pos 13.710 1.422 -83.198 241
 -----------------------------------
 
 -----------------------------------
@@ -22,7 +17,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x031d);
+    player:startEvent(0x031d);
 end;
 
 -----------------------------------
@@ -30,8 +25,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +34,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

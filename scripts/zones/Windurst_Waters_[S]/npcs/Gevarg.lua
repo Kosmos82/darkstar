@@ -2,8 +2,8 @@
 --  Area: Windurst Waters (S)
 --   NPC: Gevarg
 --  Type: Past Event Watcher
--- @zone: 94
---  @pos -46.448 -6.312 212.384
+-- @zone 94
+-- !pos -46.448 -6.312 212.384
 --
 -- Auto-Script: Requires Verification (Verified by Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0000);
+    player:startEvent(0x0000);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

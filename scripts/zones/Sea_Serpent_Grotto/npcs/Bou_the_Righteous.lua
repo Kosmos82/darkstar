@@ -2,9 +2,9 @@
 --  Area: Sea Serpent Grotto
 --   NPC: Bou the Righteous
 --  Type: Involved in the "Sahagin Key Quest"
--- @zone: 176
---  @pos -125.029 46.568 -334.778
--- 
+-- @zone 176
+-- !pos -125.029 46.568 -334.778
+--
 -----------------------------------
 package.loaded["scripts/zones/Sea_Serpent_Grotto/TextIDs"] = nil;
 -----------------------------------
@@ -24,8 +24,8 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x006c);
-	player:setVar("SahaginKeyProgress",2);
+    player:startEvent(0x006c);
+    player:setVar("SahaginKeyProgress",2);
 end;
 
 -----------------------------------
@@ -33,8 +33,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,7 +42,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

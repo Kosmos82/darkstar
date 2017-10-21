@@ -11,18 +11,30 @@ require("scripts/globals/magic");
 -----------------------------------------
 
 function onMagicCastingCheck(caster,target,spell)
-	return 0;
+    return 0;
 end;
 
 function onSpellCast(caster,target,spell)
     -- Pull base stats.
     local dINT = (caster:getStat(MOD_MND) - target:getStat(MOD_MND));
 
-    local resist = applyResistance(caster,spell,target,dINT,DIVINE_MAGIC_SKILL, 150);
+    local params = {};
+
+    params.diff = nil;
+
+    params.attribute = MOD_INT;
+
+    params.skillType = DIVINE_MAGIC_SKILL;
+
+    params.bonus =  150;
+
+    params.effect = nil;
+
+    resist = applyResistance(caster, target, spell, params);
     local duration = 12 * resist;
 
-    if(resist > 0.0625) then
-        if(target:addStatusEffect(EFFECT_FLASH,200,0,duration)) then
+    if (resist > 0.0625) then
+        if (target:addStatusEffect(EFFECT_FLASH,200,0,duration)) then
             spell:setMsg(236);
         else
             spell:setMsg(75);
@@ -30,5 +42,5 @@ function onSpellCast(caster,target,spell)
     else
         spell:setMsg(85);
     end
-	return EFFECT_FLASH;
+    return EFFECT_FLASH;
 end;

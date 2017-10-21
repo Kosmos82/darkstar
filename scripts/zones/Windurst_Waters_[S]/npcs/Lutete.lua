@@ -2,8 +2,8 @@
 --  Area: Windurst Waters (S)
 --   NPC: Lutete
 --  Type: Standard NPC
--- @zone: 94
---  @pos 169.205 -0.879 -9.107
+-- @zone 94
+-- !pos 169.205 -0.879 -9.107
 --
 -- Auto-Script: Requires Verification (Verified by Brawndo)
 -----------------------------------
@@ -24,7 +24,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc, LUTETE_DIALOG);
+    player:showText(npc, LUTETE_DIALOG);
 end;
 
 -----------------------------------
@@ -32,8 +32,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -41,7 +41,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

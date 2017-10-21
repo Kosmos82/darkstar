@@ -38,22 +38,13 @@ enum RECASTTYPE
 };
 #define MAX_RECASTTPE_SIZE   4
 
-struct Recast_t 
+struct Recast_t
 {
     uint16     ID;
-    uint32     TimeStamp;
+    time_t     TimeStamp;
     uint32     RecastTime;
     uint32     chargeTime;
     uint8      maxCharges;
-
-    Recast_t()
-    {
-        ID = 0;
-        TimeStamp = 0;
-        RecastTime = 0;
-        chargeTime = 0;
-        maxCharges = 0;
-    }
 };
 
 /************************************************************************
@@ -62,39 +53,40 @@ struct Recast_t
 *                                                                       *
 ************************************************************************/
 
-class CCharEntity;
+class CBattleEntity;
 
-typedef std::vector<Recast_t*> RecastList_t;
+typedef std::vector<Recast_t> RecastList_t;
 
 class CRecastContainer
 {
     public:
 
-    void Check();
+    virtual void Check();
 
-    void Del(RECASTTYPE type);
-    void Del(RECASTTYPE type, uint16 id);
-	void DeleteByIndex(RECASTTYPE type, uint8 index);
+    virtual void Del(RECASTTYPE type);
+    virtual void Del(RECASTTYPE type, uint16 id);
+	virtual void DeleteByIndex(RECASTTYPE type, uint8 index);
     bool Has(RECASTTYPE type, uint16 id);
-    bool HasRecast(RECASTTYPE type, uint16 id);
-    void Add(RECASTTYPE type, uint16 id, uint32 duration, uint32 chargeTime = 0, uint8 maxCharges = 0);
+    bool HasRecast(RECASTTYPE type, uint16 id, uint32 recast);
+    virtual void Add(RECASTTYPE type, uint16 id, uint32 duration, uint32 chargeTime = 0, uint8 maxCharges = 0);
     Recast_t* Load(RECASTTYPE type, uint16 id, uint32 duration, uint32 chargeTime = 0, uint8 maxCharges = 0);
-    void ResetAbilities();
+    virtual void ResetAbilities();
+    virtual void ChangeJob() {}
 
-    RecastList_t* GetRecastList(RECASTTYPE type);
+    virtual RecastList_t* GetRecastList(RECASTTYPE type);
     Recast_t*     GetRecast(RECASTTYPE type, uint16 id);
 
-	CRecastContainer(CCharEntity* PChar);
-   ~CRecastContainer();
+	CRecastContainer(CBattleEntity* PChar);
+    virtual ~CRecastContainer(){}
+
+    protected:
+
+    RecastList_t RecastMagicList;
+    RecastList_t RecastAbilityList;
 
     private:
 
-	CCharEntity* m_PChar;
-
-    RecastList_t RecastItemList;
-    RecastList_t RecastMagicList;
-    RecastList_t RecastAbilityList;
-	RecastList_t RecastLootList;
+	CBattleEntity* m_PEntity;
 };
 
 #endif

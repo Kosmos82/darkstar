@@ -2,7 +2,7 @@
 --  Area: Carpenters' Landing
 --  NPC:  Anguenet
 --  Type: Adventurer's Assistant
---  @pos 214.672 -3.013 -527.561 2
+-- !pos 214.672 -3.013 -527.561 2
 -----------------------------------
 package.loaded["scripts/zones/Carpenters_Landing/TextIDs"] = nil;
 -----------------------------------
@@ -19,7 +19,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0015);
+    player:startEvent(0x0015);
 end;
 
 -----------------------------------
@@ -27,8 +27,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -36,7 +36,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

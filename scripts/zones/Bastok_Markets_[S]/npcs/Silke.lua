@@ -21,12 +21,12 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	
+    
 player:showText(npc,SILKE_SHOP_DIALOG);
 
-stock = {0x17ab,29925,		-- Animus Augeo Schema
-	 0x17ac,29925,		-- Animus Minuo Schema
-	 0x17ad,36300}		-- Adloquim Schema
+stock = {0x17ab,29925,        -- Animus Augeo Schema
+     0x17ac,29925,        -- Animus Minuo Schema
+     0x17ad,36300}        -- Adloquim Schema
  
 showShop(player, STATIC, stock);
 end; 
@@ -36,8 +36,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -45,9 +45,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-
-
 

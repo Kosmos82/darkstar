@@ -2,7 +2,7 @@
 --  Area: East Ronfaure
 --  NPC: Rayochindot
 --  Type: Gate Guard
---  @pos 93.159 -62.999 272.601 101
+-- !pos 93.159 -62.999 272.601 101
 -----------------------------------
 package.loaded["scripts/zones/East_Ronfaure/TextIDs"] = nil;
 -----------------------------------
@@ -21,7 +21,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc, RAYOCHINDOT_DIALOG);
+    player:showText(npc, RAYOCHINDOT_DIALOG);
 end;
 
 -----------------------------------
@@ -29,8 +29,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -38,7 +38,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

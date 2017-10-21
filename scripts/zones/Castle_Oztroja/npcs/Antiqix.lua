@@ -2,7 +2,7 @@
 --  Area: Castle Oztroja
 --  NPC:  Antiqix
 --  Type: Dynamis Vendor
---  @pos -207.835 -0.751 -25.498 151
+-- !pos -207.835 -0.751 -25.498 151
 -----------------------------------
 package.loaded["scripts/zones/Castle_Oztroja/TextIDs"] = nil;
 -----------------------------------
@@ -133,7 +133,7 @@ function onEventFinish(player,csid,option)
    -- printf("Finish CSID: %u",csid);
    -- printf("Finish RESULT: %u",option);
 
-   if(csid == 54)then -- Buying an Hourglass
+   if (csid == 54) then -- Buying an Hourglass
       if (player:getFreeSlotsCount() == 0 or player:hasItem(4236) == true) then
          player:messageSpecial(ITEM_CANNOT_BE_OBTAINED,4236);
       else

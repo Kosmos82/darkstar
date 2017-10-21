@@ -2,8 +2,8 @@
 --  Area: Windurst Walls
 --   NPC: Nine of Diamonds
 --  Type: Standard NPC
--- @zone: 239
---  @pos -76.446 -10.822 107.692
+-- @zone 239
+-- !pos -76.446 -10.822 107.692
 --
 -- Auto-Script: Requires Verification (Verfied by Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0107);
+    player:startEvent(0x0107);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

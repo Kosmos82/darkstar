@@ -2,7 +2,7 @@
 --  Area: Davoi
 --  NPC:  Lootblox
 --  Type: Standard NPC
---  @pos 218.073 -0.982 -20.746 149
+-- !pos 218.073 -0.982 -20.746 149
 -----------------------------------
 package.loaded["scripts/zones/Davoi/TextIDs"] = nil;
 -----------------------------------
@@ -94,8 +94,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 
    if (csid == 133) then
       if (option == 11) then -- Main menu, and many others.  Param1 = map bitmask, param2 = player's gil
@@ -131,10 +131,10 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 
-   if(csid == 134)then -- Buying an Hourglass
+   if (csid == 134) then -- Buying an Hourglass
       if (player:getFreeSlotsCount() == 0 or player:hasItem(4236) == true) then
          player:messageSpecial(ITEM_CANNOT_BE_OBTAINED,4236);
       else

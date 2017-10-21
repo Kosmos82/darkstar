@@ -1,86 +1,65 @@
 -----------------------------------
 -- Area: The Garden of Ru'Hmet
--- NPC:  Ix'aern (drg)
+--  MOB: Ix'aern (drg)
 -----------------------------------
-require("scripts/zones/The_Garden_of_RuHmet/MobIDs");
-require( "scripts/globals/status" );
+require("scripts/globals/status");
+
 -----------------------------------
 -- onMobSpawn Action
 -----------------------------------
 
 function onMobSpawn(mob)
-
+    if (math.random(0,99) < 78) then
+        SetDropRate(4396,1870,1000); -- Deed Of Sensib.
+        SetDropRate(4396,1903,0);
+    else
+        SetDropRate(4396,1870,0);
+        SetDropRate(4396,1903,1000); -- Vice Of Aspersion
+    end
 end;
+
 -----------------------------------
 -- onMobFight Action
 -----------------------------------
-function onMobFight( mob, target )
 
-	  --[[  local drga = mob:getLocalVar("drga");
-        local drgb = mob:getLocalVar("drgb");
-        local drgc = mob:getLocalVar("drgc");
-
-
-        if (drga == 1 and drgb == 1 and drgc == 1) then
-            return;
+function onMobFight(mob,target)
+    -- Spawn the pets if they are despawned
+    -- TODO: summon animations?
+    for wynavs = mob:getID()+1, mob:getID()+3 do
+        if (GetMobAction(wynavs) == ACTION_NONE) then
+            local repopWynavs = GetMobByID(wynavs):getLocalVar("repop"); -- see Wynav script
+            if (mob:getBattleTime() - repopWynavs > 10) then
+                GetMobByID(wynavs):setSpawn(
+                    mob:getXPos()+math.random(1,5),
+                    mob:getYPos(),
+                    mob:getZPos()+math.random(1,5)
+                ); -- Line got too wide.
+                SpawnMob(wynavs):updateEnmity(target);
+            end
         end
-
-        -- Pick a pet to spawn at random..
-        local ChosenPet = nil;
-        local newVar = nil;
-        repeat
-
-            local rand = math.random( 0, 2 );
-            ChosenPet = 16921023 + rand;
-
-            switch (ChosenPet): caseof {
-                [16921023] = function (x) if (drga == 1) then ChosenPet = 0; else newVar = "drga";  end end, -- drga
-                [16921024] = function (x) if (drgb == 1) then ChosenPet = 0; else newVar = "drgb"; end end, -- drgb
-                [16921025] = function (x) if (drgc == 1) then ChosenPet = 0; else newVar = "drgc"; end end, -- drgc
-            }
-
-        until (ChosenPet ~= 0 and ChosenPet ~= nil)
-
-        -- Spawn the pet..
-        local pet = SpawnMob( ChosenPet );
-        pet:updateEnmity( target );
-        pet:setPos( mob:getXPos(), mob:getYPos(), mob:getZPos() );
-
-        -- Update Ix'aern (drg) extra vars
-        mob:setLocalVar(newVar, 1);
-
-
-    -- Ensure all spawned pets are doing stuff..
-    for pets = 16921023, 16921025 do
-        if (GetMobAction( pets ) == 16) then
-            -- Send pet after current target..
-            GetMobByID( pets ):updateEnmity( target );
-        end
-    end]]--
+    end
 end
-
-
 
 -----------------------------------
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer)
-	-- Despawn pets..
-	DespawnMob(16921023);
-	DespawnMob(16921024);
-	DespawnMob(16921025);
+function onMobDeath(mob, player, isKiller)
+    -- Despawn pets..
+    DespawnMob(mob:getID()+1);
+    DespawnMob(mob:getID()+2);
+    DespawnMob(mob:getID()+3);
 end;
 
 -----------------------------------
 -- OnMobDespawn
 -----------------------------------
 function onMobDespawn( mob )
-    -- Despawn pets..
-	DespawnMob( 16921023 );
-	DespawnMob( 16921024 );
-	DespawnMob( 16921025 );
+    -- Despawn pets.
+    DespawnMob(mob:getID()+1);
+    DespawnMob(mob:getID()+2);
+    DespawnMob(mob:getID()+3);
 
-    -- Reset popped var..
-    SetServerVariable("[PH]Ix_aern_drg",0);
+    -- Pick a new PH for Ix'Aern (DRG)
+    SetServerVariable("[SEA]IxAernDRG_PH", AwAernDRGGroups[math.random(1, #AwAernDRGGroups)] + math.random(0, 2));
 end

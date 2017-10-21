@@ -2,8 +2,8 @@
 --  Area: Ru'Lude Gardens
 --   NPC: Archanne
 --  Type: Event Scene Replayer
--- @zone: 243
---  @pos -54.104 10.999 -34.144
+-- @zone 243
+-- !pos -54.104 10.999 -34.144
 --
 -- Auto-Script: Requires Verification (Verfied by Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x2717);
+    player:startEvent(0x2717);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

@@ -12,7 +12,7 @@ require("scripts/zones/Aht_Urhgan_Whitegate/TextIDs");
 
 Deposit = 0x02bf;
 Withdrawl = 0x02c0;
-ArraySize = table.getn(StorageArray);
+ArraySize = #StorageArray;
 G1 = 0;
 G2 = 0;
 G3 = 0;
@@ -116,7 +116,7 @@ function onEventFinish(player,csid,option)
                end;
             end;
          end;
-      end;		
+      end;        
    end;
    if (csid == Deposit) then
       player:tradeComplete();

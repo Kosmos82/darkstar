@@ -2,11 +2,11 @@
 --  Area: Port Windurst
 --   NPC: Pygmalion
 --  Type: Standard NPC
--- @zone: 240
---  @pos 228.710 -7 93.314
+-- @zone 240
+-- !pos 228.710 -7 93.314
 --
 -- Auto-Script: Requires Verification (Verfied by Brawndo)
------------------------------------ 
+-----------------------------------
 package.loaded["scripts/zones/Port_Windurst/TextIDs"] = nil;
 -----------------------------------
 
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x2723);
+    player:startEvent(0x2723);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

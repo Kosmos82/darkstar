@@ -1,7 +1,7 @@
 -----------------------------------
---	Area: Norg
---	NPC:  Zoldba
---	Working 100%
+-- Area: Norg
+-- NPC:  Zoldba
+-- Working 100%
 -----------------------------------
 
 -----------------------------------
@@ -16,7 +16,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:sendMenu(3);
+    player:sendMenu(3);
 end; 
 
 -----------------------------------
@@ -24,8 +24,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -33,9 +33,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-
-
-

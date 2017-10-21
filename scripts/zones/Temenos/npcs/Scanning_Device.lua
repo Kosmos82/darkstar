@@ -1,14 +1,14 @@
 -----------------------------------
 -- Area: Temenos
 -- NPC:  Scanning_Device
--- @pos 
+-- !pos
 -----------------------------------
 require("scripts/globals/limbus");
 -----------------------------------
 -- onTrade Action
 -----------------------------------
 
-function onTrade(player,npc,trade)	
+function onTrade(player,npc,trade)
 end;
 
 -----------------------------------
@@ -27,35 +27,35 @@ end;
 
 function onEventUpdate(player,csid,option)
   -- printf("CSID: %u",csid);
-   printf("RESULT: %u",option); 
+   printf("RESULT: %u",option);
    Xtime=0;
---=player:getSpecialBattlefieldLeftTime();   
- switch (option): caseof {     
+--=player:getSpecialBattlefieldLeftTime();
+ switch (option): caseof {
         [1] = function (x) -- N
 Xtime=player:getSpecialBattlefieldLeftTime(2);
-		end,
+        end,
         [2] = function (x) -- E
 Xtime=player:getSpecialBattlefieldLeftTime(1);
-		end,
-		[3] = function (x) -- O
+        end,
+        [3] = function (x) -- O
 Xtime=player:getSpecialBattlefieldLeftTime(3);
-		end,
-		[4] = function (x) -- 4E 
+        end,
+        [4] = function (x) -- 4E
 Xtime=player:getSpecialBattlefieldLeftTime(8);
-		end,
-		[5] = function (x) -- 3E
+        end,
+        [5] = function (x) -- 3E
 Xtime=player:getSpecialBattlefieldLeftTime(7);
-		end,
-		[6] = function (x) -- 2E
+        end,
+        [6] = function (x) -- 2E
 Xtime=player:getSpecialBattlefieldLeftTime(6);
-		end,
-		[7] = function (x) -- 1E
+        end,
+        [7] = function (x) -- 1E
 Xtime=player:getSpecialBattlefieldLeftTime(5);
-		end,
-		[8] = function (x) -- SS
+        end,
+        [8] = function (x) -- SS
 Xtime=player:getSpecialBattlefieldLeftTime(4);
-		end,	
-                             }		
+        end,
+                             }
  player:updateEvent(0,Xtime,0,0,0,0,0,0);
 end;
 
@@ -64,9 +64,9 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
--- printf("CSID: %u",csid);
--- printf("RESULT: %u",option);
-   if(csid == 0)then
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
+   if (csid == 0) then
 
    end
 end;

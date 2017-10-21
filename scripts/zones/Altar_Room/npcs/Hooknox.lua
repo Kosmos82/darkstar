@@ -1,13 +1,8 @@
 -----------------------------------
---  Area: Altar Room
---   NPC: Hooknox
---  Type: Standard NPC
--- @zone: 152
---  @pos -265.248 11.693 -102.547
--- 
--- Auto-Script: Requires Verification (Verified by Brawndo)
------------------------------------
-package.loaded["scripts/zones/Altar_Room/TextIDs"] = nil;
+-- Area: Altar Room
+--  NPC: Hooknox
+-- Type: Standard NPC
+-- !pos -265.248 11.693 -102.547 152
 -----------------------------------
 
 -----------------------------------
@@ -22,7 +17,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x002e);
+    player:startEvent(0x002e);
 end;
 
 -----------------------------------
@@ -30,8 +25,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +34,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-

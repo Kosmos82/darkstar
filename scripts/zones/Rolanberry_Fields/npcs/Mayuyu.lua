@@ -2,7 +2,7 @@
 -- Area: Rolanberry Fields
 --  NPC: Mayuyu
 -- Legion NPC
--- @pos 240 24.399 468
+-- !pos 240 24.399 468
 -----------------------------------
 package.loaded["scripts/zones/Rolanberry_Fields/TextIDs"] = nil;
 -----------------------------------
@@ -37,11 +37,7 @@ function onTrigger(player,npc)
         CAPACITY = CAPACITY+1; -- Enable 18 combatant option
     end
 
-    if (player:getMainLvl() < 75) then
-        player:showText(npc, AWAIT_YOUR_CHALLENGE); -- Likely incorrect message.
-    else
-        player:startEvent(8008, 0, LEGENDARY, CAPACITY);
-    end
+    player:startEvent(8008, 0, LEGENDARY, CAPACITY);
 end;
 
 -----------------------------------

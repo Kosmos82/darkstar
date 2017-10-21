@@ -5,20 +5,18 @@
 -- 
 -----------------------------------
 -----------------------------------
-
-
 -----------------------------------
 -- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
-	
-	
-	if(GetMobAction(17146147) == 0 and trade:hasItemQty(2564,1) and trade:getItemCount() == 1) then
-		player:tradeComplete();
-		SpawnMob(17146147,300):updateEnmity(player); -- Kinepikwa
-	end
-	
+    
+    
+    if (GetMobAction(17146147) == 0 and trade:hasItemQty(2564,1) and trade:getItemCount() == 1) then
+        player:tradeComplete();
+        SpawnMob(17146147):updateClaim(player); -- Kinepikwa
+    end
+    
 end; 
 
 -----------------------------------
@@ -33,8 +31,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,6 +40,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;

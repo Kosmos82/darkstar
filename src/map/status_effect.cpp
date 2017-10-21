@@ -25,21 +25,16 @@
 
 #include "entities/battleentity.h"
 #include "status_effect.h"
+#include "status_effect_container.h"
 
 
-CStatusEffect::CStatusEffect(EFFECT id, uint16 icon, uint16 power, uint32 tick, uint32 duration, uint32 subid, uint16 subPower, uint16 tier)
+CStatusEffect::CStatusEffect(EFFECT id, uint16 icon, uint16 power, uint32 tick, uint32 duration, uint32 subid, uint16 subPower, uint16 tier) :
+    m_StatusID(id), m_SubID(subid), m_Icon(icon), m_Power(power), m_SubPower(subPower), m_Tier(tier), m_TickTime(tick * 1000), m_Duration(duration * 1000)
 {
-	m_StatusID = id;
-    m_Type     = 0;
-	m_SubID	   = subid;
-    m_Icon     = icon;
-	m_Power	   = power;
-    m_SubPower = subPower;
-    m_Tier     = tier;
-	m_Flag	   = EFFECTFLAG_NONE;
-	m_TickTime = tick * 1000;
-	m_Duration = duration * 1000;
-    m_POwner = nullptr;
+    if (m_TickTime < 3000 && m_TickTime != 0)
+    {
+        ShowWarning("Status Effect tick time less than 3s is no longer supported.  Effect ID: %d\n", id);
+    }
 }
 
 CStatusEffect::~CStatusEffect()
@@ -115,14 +110,14 @@ uint32 CStatusEffect::GetDuration()
 	return m_Duration;
 }
 
-uint32 CStatusEffect::GetStartTime()
+int CStatusEffect::GetElapsedTickCount()
 {
-	return m_StartTime;
+    return m_tickCount;
 }
 
-uint32 CStatusEffect::GetLastTick()
+time_point CStatusEffect::GetStartTime()
 {
-	return m_LastTick;
+	return m_StartTime;
 }
 
 void CStatusEffect::SetFlag(uint32 Flag)
@@ -168,20 +163,20 @@ void CStatusEffect::SetDuration(uint32 Duration)
 	m_Duration = Duration;
 }
 
-void CStatusEffect::SetStartTime(uint32 StartTime)
+void CStatusEffect::SetStartTime(time_point StartTime)
 {
-	m_LastTick  = StartTime;
+	m_tickCount  = 0;
 	m_StartTime = StartTime;
-}
-
-void CStatusEffect::SetLastTick(uint32 LastTick)
-{
-	m_LastTick = LastTick;
 }
 
 void CStatusEffect::SetTickTime(uint32 tick)
 {
 	m_TickTime = tick;
+}
+
+void CStatusEffect::IncrementElapsedTickCount()
+{
+    ++m_tickCount;
 }
 
 void CStatusEffect::SetName(const int8* name)
@@ -195,7 +190,7 @@ void CStatusEffect::SetName(string_t name)
 	m_Name = name;
 }
 
-void CStatusEffect::addMod(uint16 modType, int16 amount)
+void CStatusEffect::addMod(Mod modType, int16 amount)
 {
 	for (uint32 i = 0; i < modList.size(); ++i)
 	{

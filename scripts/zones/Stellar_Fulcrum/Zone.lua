@@ -14,15 +14,15 @@ require("scripts/zones/Stellar_Fulcrum/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
-	
-	zone:registerRegion(1, -522, -2, -49,  -517, -1, -43); -- To Upper Delkfutt's Tower
-	zone:registerRegion(2, 318, -3, 2,  322, 1, 6); -- Exit BCNM to ?
-	
+    
+    zone:registerRegion(1, -522, -2, -49,  -517, -1, -43); -- To Upper Delkfutt's Tower
+    zone:registerRegion(2, 318, -3, 2,  322, 1, 6); -- Exit BCNM to ?
+    
 end;
 
------------------------------------		
--- onConquestUpdate		
------------------------------------		
+-----------------------------------        
+-- onConquestUpdate        
+-----------------------------------        
 
 function onConquestUpdate(zone, updatetype)
     local players = zone:getPlayers();
@@ -37,15 +37,15 @@ end;
 -----------------------------------
 
 function onZoneIn(player,prevZone)
-	
-	local cs = -1;
-	
-	if(player:getCurrentMission(ZILART) == RETURN_TO_DELKFUTTS_TOWER and player:getVar("ZilartStatus") == 2) then
-		cs = 0x0000;
-	end
-	
-	return cs;
-	
+    
+    local cs = -1;
+    
+    if (player:getCurrentMission(ZILART) == RETURN_TO_DELKFUTTS_TOWER and player:getVar("ZilartStatus") == 2) then
+        cs = 0x0000;
+    end
+    
+    return cs;
+    
 end;
 
 -----------------------------------
@@ -53,17 +53,17 @@ end;
 -----------------------------------
 
 function onRegionEnter(player,region)
-	
-	switch (region:GetRegionID()): caseof
-	{
-		[1] = function (x)
-			player:startEvent(8);
-		end,
-		[2] = function (x)
-			player:startEvent(8);
-		end,
-	}
-	
+    
+    switch (region:GetRegionID()): caseof
+    {
+        [1] = function (x)
+            player:startEvent(8);
+        end,
+        [2] = function (x)
+            player:startEvent(8);
+        end,
+    }
+    
 end;
 
 -----------------------------------
@@ -78,8 +78,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -87,13 +87,13 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
-	
-	if(csid == 8 and option == 1) then
-		player:setPos(-370, -178, -40, 243, 0x9e);
-	elseif(csid == 0x0000) then
-		player:setVar("ZilartStatus",3);
-	end
-	
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
+    
+    if (csid == 8 and option == 1) then
+        player:setPos(-370, -178, -40, 243, 0x9e);
+    elseif (csid == 0x0000) then
+        player:setVar("ZilartStatus",3);
+    end
+    
 end;

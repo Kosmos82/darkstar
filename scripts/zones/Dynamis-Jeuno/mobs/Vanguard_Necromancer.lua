@@ -14,12 +14,19 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer)
+function onMobDeath(mob, player, isKiller)
+end;
 
-	local mobPet = mob:getID() + 1;
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
 
-	if(GetMobAction(mobPet) ~= 0) then
-		GetMobByID(mobPet):setHP(0);
-	end
+function onMobDespawn(mob)
+
+    local mobPet = mob:getID() + 1;
+
+    if (GetMobAction(mobPet) ~= 0) then
+        GetMobByID(mobPet):setHP(0);
+    end
 
 end;

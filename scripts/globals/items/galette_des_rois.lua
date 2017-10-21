@@ -3,7 +3,8 @@
 -- Item: Galette Des Rois
 -- Food Effect: 180 Min, All Races
 -----------------------------------------
--- MP % 1
+-- HP +8
+-- MP +3% (cap13)
 -- Intelligence +2
 -- Random Jewel
 -----------------------------------------
@@ -16,14 +17,14 @@ require("scripts/zones/Bastok_Mines/TextIDs");
 -----------------------------------------
 
 function onItemCheck(target)
-	local result = 0;
-	if (target:hasStatusEffect(EFFECT_FOOD)) then
-		result = 246;
-	end
-	if (target:getFreeSlotsCount() == 0) then
-		result = 308;
-	end
-return result;
+    local result = 0;
+    if (target:hasStatusEffect(EFFECT_FOOD)) then
+        result = 246;
+    end
+    if (target:getFreeSlotsCount() == 0) then
+        result = 308;
+    end
+    return result;
 end;
 
 -----------------------------------------
@@ -41,7 +42,9 @@ end;
 -----------------------------------------
 
 function onEffectGain(target,effect)
-    target:addMod(MOD_MPP, 1);
+    target:addMod(MOD_HP, 8);
+    target:addMod(MOD_FOOD_MPP, 3);
+    target:addMod(MOD_FOOD_MP_CAP, 13);
     target:addMod(MOD_INT, 2);
 end;
 
@@ -50,6 +53,8 @@ end;
 -----------------------------------------
 
 function onEffectLose(target,effect)
-    target:delMod(MOD_MPP, 1);
+    target:delMod(MOD_HP, 8);
+    target:delMod(MOD_FOOD_MPP, 3);
+    target:delMod(MOD_FOOD_MP_CAP, 13);
     target:delMod(MOD_INT, 2);
 end;

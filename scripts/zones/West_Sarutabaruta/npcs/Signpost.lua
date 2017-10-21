@@ -20,33 +20,33 @@ end;
 
 function onTrigger(player,npc)
 
-	if(npc:getID() == 17248809) or (npc:getID() == 17248810) then
-		player:messageSpecial(SIGN_1);
-	elseif(npc:getID() == 17248811) or (npc:getID() == 17248812) then
-		player:messageSpecial(SIGN_3);
-	elseif(npc:getID() == 17248813) or (npc:getID() == 17248814) then
-		player:messageSpecial(SIGN_5);
-	elseif(npc:getID() == 17248815) or (npc:getID() == 17248816) then
-		player:messageSpecial(SIGN_7);
-	elseif(npc:getID() == 17248817) or (npc:getID() == 17248818) then
-		player:messageSpecial(SIGN_9);
-	elseif(npc:getID() == 17248819) or (npc:getID() == 17248820) then
-		player:messageSpecial(SIGN_11);
-	elseif(npc:getID() == 17248821) or (npc:getID() == 17248822) then
-		player:messageSpecial(SIGN_13);
-	elseif(npc:getID() == 17248823) or (npc:getID() == 17248824) then
-		player:messageSpecial(SIGN_15);
-	elseif(npc:getID() == 17248825) or (npc:getID() == 17248826) then
-		player:messageSpecial(SIGN_17);
-	end
+    if (npc:getID() == 17248792) or (npc:getID() == 17248793) then
+        player:messageSpecial(SIGN_1);
+    elseif (npc:getID() == 17248794) or (npc:getID() == 17248795) then
+        player:messageSpecial(SIGN_3);
+    elseif (npc:getID() == 17248796) or (npc:getID() == 17248797) then
+        player:messageSpecial(SIGN_5);
+    elseif (npc:getID() == 17248798) or (npc:getID() == 17248799) then
+        player:messageSpecial(SIGN_7);
+    elseif (npc:getID() == 17248800) or (npc:getID() == 17248801) then
+        player:messageSpecial(SIGN_9);
+    elseif (npc:getID() == 17248802) or (npc:getID() == 17248803) then
+        player:messageSpecial(SIGN_11);
+    elseif (npc:getID() == 17248804) or (npc:getID() == 17248805) then
+        player:messageSpecial(SIGN_13);
+    elseif (npc:getID() == 17248806) or (npc:getID() == 17248807) then
+        player:messageSpecial(SIGN_15);
+    elseif (npc:getID() == 17248808) or (npc:getID() == 17248809) then
+        player:messageSpecial(SIGN_17);
+    end
 end;
 -----------------------------------
 -- onEventUpdate
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------

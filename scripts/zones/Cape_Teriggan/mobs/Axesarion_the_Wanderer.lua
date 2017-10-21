@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: Cape Teriggan
--- NM:   Axesarion the Wanderer
+--  NM:  Axesarion the Wanderer
 -----------------------------------
 
 -----------------------------------
@@ -11,13 +11,20 @@ function onMobSpawn(mob)
 end;
 
 -----------------------------------
--- onMobDeath Action
+-- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer)
+function onMobDeath(mob, player, isKiller)
+end;
 
-	if(GetServerVariable("[ZM4]Wind_Headstone_Active") == 0) then
-		SetServerVariable("[ZM4]Wind_Headstone_Active",os.time()+ 900);
-	end
+-----------------------------------
+-- onMobDespawn Action
+-----------------------------------
+
+function onMobDespawn(mob)
+
+    if (GetServerVariable("[ZM4]Wind_Headstone_Active") == 0) then
+        SetServerVariable("[ZM4]Wind_Headstone_Active",os.time()+ 900);
+    end
 
 end;

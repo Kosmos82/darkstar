@@ -2,7 +2,7 @@
 --  Area: Aht Urhgan Whitegate
 --  NPC:  Sorrowful Sage
 --  Type: Assault Mission Giver
---  @pos 134.096 0.161 -30.401 50
+-- !pos 134.096 0.161 -30.401 50
 -----------------------------------
 package.loaded["scripts/zones/Aht_Urhgan_Whitegate/TextIDs"] = nil;
 -----------------------------------
@@ -24,21 +24,21 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	local rank = getMercenaryRank(player);
+    local rank = getMercenaryRank(player);
     local haveimperialIDtag;
     local tokens = 3;--player:getAssaultPoint(ILRUSI_ASSAULT_POINT);
-    
+
     if (player:hasKeyItem(IMPERIAL_ARMY_ID_TAG)) then
         haveimperialIDtag = 1;
     else
         haveimperialIDtag = 0;
     end
-    
-    if (rank > 0) then
+
+--[[    if (rank > 0) then
         player:startEvent(278,rank,haveimperialIDtag,tokens,player:getCurrentAssault());
-    else
+    else]]
         player:startEvent(284); -- no rank
-	end
+    --end
 end;
 
 -----------------------------------
@@ -46,9 +46,9 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
-    
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
+
     if (csid == 278) then
         local categorytype = bit.band(option, 0x0F);
         if (categorytype == 3) then
@@ -69,8 +69,8 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
     if (csid == 278) then
         local selectiontype = bit.band(option, 0xF);
         if (selectiontype == 1) then

@@ -1,13 +1,8 @@
 -----------------------------------
---  Area: Windurst Woods
---   NPC: Hayah Dahbalesahma
---  Type: Standard NPC
--- @zone: 241
---  @pos -50.363 -1.292 -147.883
---
--- Auto-Script: Requires Verification (Verfied by Brawndo)
------------------------------------
-package.loaded["scripts/zones/Windurst_Woods/TextIDs"] = nil;
+-- Area: Windurst Woods
+--  NPC: Hayah Dahbalesahma
+-- Type: Standard NPC
+-- !pos -50.363 -1.292 -147.883 241
 -----------------------------------
 
 -----------------------------------
@@ -22,7 +17,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0107);
+    player:startEvent(0x0107);
 end;
 
 -----------------------------------
@@ -30,8 +25,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +34,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

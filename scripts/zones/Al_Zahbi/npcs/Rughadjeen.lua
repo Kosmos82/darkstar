@@ -1,13 +1,8 @@
 -----------------------------------
---  Area: Al Zahbi
---   NPC: Rughadjeen
---  Type: Skyserpent General
--- @zone: 48
---  @pos -74.150 -7 70.656
--- 
--- Auto-Script: Requires Verification (Verified by Brawndo)
------------------------------------
-package.loaded["scripts/zones/Al_Zahbi/TextIDs"] = nil;
+-- Area: Al Zahbi
+--  NPC: Rughadjeen
+-- Type: Skyserpent General
+-- !pos -74.150 -7 70.656 48
 -----------------------------------
 
 -----------------------------------
@@ -22,7 +17,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0109);
+    player:startEvent(0x0109);
 end;
 
 -----------------------------------
@@ -30,8 +25,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +34,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

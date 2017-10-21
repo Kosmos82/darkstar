@@ -2,7 +2,7 @@
 --  Area: Norg
 --   NPC: Jirokichi
 --  Type: Tenshodo Merchant
---  @pos -1.463 0.000 18.846 252
+-- !pos -1.463 0.000 18.846 252
 -----------------------------------
 package.loaded["scripts/zones/Norg/TextIDs"] = nil;
 -----------------------------------
@@ -24,13 +24,13 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	if (player:hasKeyItem(TENSHODO_MEMBERS_CARD)) then
-		if(player:sendGuild(60423,9,23,7)) then
-			player:showText(npc, JIROKICHI_SHOP_DIALOG);
-		end
-	else
-		-- player:startEvent(0x0096);
-	end
+    if (player:hasKeyItem(TENSHODO_MEMBERS_CARD)) then
+        if (player:sendGuild(60423,9,23,7)) then
+            player:showText(npc, JIROKICHI_SHOP_DIALOG);
+        end
+    else
+        -- player:startEvent(0x0096);
+    end
 end;
 
 -----------------------------------
@@ -38,8 +38,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -47,7 +47,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

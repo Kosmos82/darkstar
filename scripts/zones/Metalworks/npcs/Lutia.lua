@@ -2,8 +2,8 @@
 --  Area: Metalworks
 --   NPC: Lutia
 --  Type: Standard NPC
--- @zone: 237
---  @pos 24.076 -17 -33.060
+-- @zone 237
+-- !pos 24.076 -17 -33.060
 --
 -- Auto-Script: Requires Verification (Verified by Brawndo)
 -----------------------------------
@@ -23,7 +23,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x00ca);
+    player:startEvent(0x00ca);
 end;
 
 -----------------------------------
@@ -31,8 +31,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -40,7 +40,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

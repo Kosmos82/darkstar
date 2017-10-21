@@ -1,7 +1,7 @@
 -----------------------------------
---	Area: Windurst Walls
---	NPC:  Ran
---	Working 100%
+-- Area: Windurst Walls
+-- NPC:  Ran
+-- Working 100%
 -----------------------------------
 
 require("scripts/globals/settings");
@@ -18,11 +18,11 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	if (math.random() >= .5) then
-		player:startEvent(0x110);
-	else
-		player:startEvent(0x111);
-	end
+    if (math.random() >= .5) then
+        player:startEvent(0x110);
+    else
+        player:startEvent(0x111);
+    end
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,8 +39,8 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 

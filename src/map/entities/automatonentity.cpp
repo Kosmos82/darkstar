@@ -22,24 +22,29 @@
 */
 
 #include "automatonentity.h"
+#include "../ai/ai_container.h"
+#include "../ai/controllers/automaton_controller.h"
 #include "../utils/puppetutils.h"
+#include "../../common/utils.h"
 #include "../packets/entity_update.h"
 #include "../packets/pet_sync.h"
 #include "../packets/char_job_extra.h"
+#include "../status_effect_container.h"
+#include "../ai/states/magic_state.h"
+#include "../ai/states/mobskill_state.h"
+#include "../packets/action.h"
+#include "../mob_modifier.h"
+#include "../utils/mobutils.h"
+#include "../recast_container.h"
 
 CAutomatonEntity::CAutomatonEntity()
     : CPetEntity(PETTYPE_AUTOMATON)
 {
-    memset(&m_Equip, 0, sizeof m_Equip);
-    memset(&m_ElementMax, 0, sizeof m_ElementMax);
-    memset(&m_ElementEquip, 0, sizeof m_ElementEquip);
-    memset(&m_Burden, 40, sizeof m_Burden);
+    PAI->SetController(nullptr);
 }
 
 CAutomatonEntity::~CAutomatonEntity()
-{
-
-}
+{}
 
 void CAutomatonEntity::setFrame(AUTOFRAMETYPE frame)
 {
@@ -63,70 +68,73 @@ AUTOHEADTYPE CAutomatonEntity::getHead()
 
 void CAutomatonEntity::setAttachment(uint8 slotid, uint8 id)
 {
-    if (slotid < 12)
-    {
-        m_Equip.Attachments[slotid] = id;
-    }
+    m_Equip.Attachments[slotid] = id;
 }
 
 uint8 CAutomatonEntity::getAttachment(uint8 slotid)
 {
-    if (slotid < 12)
+    return m_Equip.Attachments[slotid];
+}
+
+bool CAutomatonEntity::hasAttachment(uint8 attachment)
+{
+    for (auto&& attachmentid : m_Equip.Attachments)
     {
-        return m_Equip.Attachments[slotid];
+        if (attachmentid == attachment)
+        {
+            return true;
+        }
     }
-    return 0;
+    return false;
 }
 
 void CAutomatonEntity::setElementMax(uint8 element, uint8 max)
 {
-    if (element < 8)
-        m_ElementMax[element] = max;
+    m_ElementMax[element] = max;
 }
 
 uint8 CAutomatonEntity::getElementMax(uint8 element)
 {
-    if (element < 8)
-        return m_ElementMax[element];
-    return 0;
+    return m_ElementMax[element];
 }
 
 void CAutomatonEntity::addElementCapacity(uint8 element, int8 value)
 {
-    if (element < 8)
-        m_ElementEquip[element] += value;
+    m_ElementEquip[element] += value;
 }
 
 uint8 CAutomatonEntity::getElementCapacity(uint8 element)
 {
-    if (element < 8)
-        return m_ElementEquip[element];
-    return 0;
+    return m_ElementEquip[element];
 }
 
 void CAutomatonEntity::burdenTick()
 {
-    for (int i = 0; i < 8; i++)
+    for (auto&& burden : m_Burden)
     {
-        if (m_Burden[i] > 0)
+        if (burden > 0)
         {
-            //TODO: heat sink attachment
-            m_Burden[i]--;
+            burden -= dsp_cap(1 + PMaster->getMod(Mod::BURDEN_DECAY) + this->getMod(Mod::BURDEN_DECAY), 1, burden);
         }
     }
 }
 
-uint8 CAutomatonEntity::addBurden(uint8 element, uint8 burden)
+void CAutomatonEntity::setInitialBurden()
 {
-    //TODO: tactical processor attachment
-    uint8 thresh = 30 + PMaster->getMod(MOD_OVERLOAD_THRESH);
-    if (element < 8)
+    m_Burden.fill(30);
+}
+
+uint8 CAutomatonEntity::addBurden(uint8 element, int8 burden)
+{
+    m_Burden[element] = dsp_cap(m_Burden[element] + burden, 0, 255);
+
+    if (burden > 0)
     {
-        m_Burden[element] += burden;
         //check for overload
+        int16 thresh = 30 + PMaster->getMod(Mod::OVERLOAD_THRESH);
         if (m_Burden[element] > thresh)
         {
-            if (WELL512::irand() % 100 < (m_Burden[element] - thresh + 5))
+            if (dsprand::GetRandomNumber(100) < (m_Burden[element] - thresh + 5))
             {
                 //return overload duration
                 return m_Burden[element] - thresh;
@@ -136,20 +144,72 @@ uint8 CAutomatonEntity::addBurden(uint8 element, uint8 burden)
     return 0;
 }
 
-void CAutomatonEntity::UpdateEntity()
+void CAutomatonEntity::PostTick()
 {
-    if (loc.zone && updatemask && status != STATUS_DISAPPEAR)
+    auto pre_mask = updatemask;
+    CPetEntity::PostTick();
+    if (pre_mask && status != STATUS_DISAPPEAR)
     {
-        if (PMaster && PMaster->PPet == this)
-        {
-            ((CCharEntity*)PMaster)->pushPacket(new CPetSyncPacket((CCharEntity*)PMaster));
-        }
-        loc.zone->PushPacket(this, CHAR_INRANGE, new CEntityUpdatePacket(this, ENTITY_UPDATE, updatemask));
-        updatemask = 0;
-        if (PMaster->objtype == TYPE_PC)
+        if (PMaster && PMaster->objtype == TYPE_PC)
         {
             ((CCharEntity*)PMaster)->pushPacket(new CCharJobExtraPacket((CCharEntity*)PMaster, PMaster->GetMJob() == JOB_PUP));
         }
-        updatemask = 0;
     }
+}
+
+void CAutomatonEntity::Die()
+{
+    if (PMaster != nullptr)
+        PMaster->StatusEffectContainer->RemoveAllManeuvers();
+    CPetEntity::Die();
+}
+
+bool CAutomatonEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
+{
+    if (targetFlags & TARGET_PLAYER && this == PInitiator)
+    {
+        return true;
+    }
+    return CPetEntity::ValidTarget(PInitiator, targetFlags);
+}
+
+void CAutomatonEntity::OnCastFinished(CMagicState& state, action_t& action)
+{
+    CMobEntity::OnCastFinished(state, action);
+
+    auto PSpell = state.GetSpell();
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+
+    PRecastContainer->Add(RECAST_MAGIC, static_cast<uint16>(PSpell->getID()), action.recast);
+
+    if (PSpell->tookEffect())
+    {
+        puppetutils::TrySkillUP(this, SKILL_AMA, PTarget->GetMLevel());
+    }
+}
+
+void CAutomatonEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
+{
+    CMobEntity::OnMobSkillFinished(state, action);
+
+    auto PSkill = state.GetSkill();
+    auto PTarget = static_cast<CBattleEntity*>(state.GetTarget());
+
+    // Ranged attack skill up
+    if (PSkill->getID() == 1949 && !PSkill->hasMissMsg())
+    {
+        puppetutils::TrySkillUP(this, SKILL_ARA, PTarget->GetMLevel());
+    }
+}
+
+void CAutomatonEntity::Spawn()
+{
+    status = allegiance == ALLEGIANCE_MOB ? STATUS_MOB : STATUS_NORMAL;
+    updatemask |= UPDATE_HP;
+    PAI->Reset();
+    PAI->EventHandler.triggerListener("SPAWN", this);
+    animation = ANIMATION_NONE;
+    m_OwnerID.clean();
+    HideName(false);
+    luautils::OnMobSpawn(this);
 }

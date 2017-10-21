@@ -10,21 +10,28 @@ require("scripts/globals/titles");
 -----------------------------------
 
 function onMobSpawn(mob)
-	SetServerVariable("[POP]Cemetery Cherry",0);
+    SetServerVariable("[POP]Cemetery Cherry",0);
 end;
 
 -----------------------------------
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob)
+function onMobDeath(mob, player, isKiller)
+end;
 
-	SetServerVariable("[POP]Cemetery Cherry",GetServerVariable("[POP]Cemetery Cherry") + 1);
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
 
-	if(GetServerVariable("[POP]Cemetery Cherry") == 8) then
-		SetServerVariable("[POP]Cemetery Cherry",0);
-		SpawnMob(17555863,600); -- Pop Cemetery Cherry !
+function onMobDespawn(mob)
 
-	end
+    SetServerVariable("[POP]Cemetery Cherry",GetServerVariable("[POP]Cemetery Cherry") + 1);
+
+    if (GetServerVariable("[POP]Cemetery Cherry") == 8) then
+        SetServerVariable("[POP]Cemetery Cherry",0);
+        SpawnMob(17555863); -- Pop Cemetery Cherry !
+
+    end
 
 end;

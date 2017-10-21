@@ -3,8 +3,8 @@
 -- NPC:  Otto
 -- Standard Info NPC
 -- Involved in Quest: The Siren's Tear
--- @zone: 236
--- @pos -145.929 -7.48 -13.701
+-- @zone 236
+-- !pos -145.929 -7.48 -13.701
 -----------------------------------
 
 require("scripts/globals/quests");
@@ -21,13 +21,13 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	local SirensTear = player:getQuestStatus(BASTOK,THE_SIREN_S_TEAR);
+    local SirensTear = player:getQuestStatus(BASTOK,THE_SIREN_S_TEAR);
 
-	if(SirensTear == QUEST_ACCEPTED and player:getVar("SirensTear") == 0) then
-		player:startEvent(0x0005);
-	else
-		player:startEvent(0x0014);
-	end
+    if (SirensTear == QUEST_ACCEPTED and player:getVar("SirensTear") == 0) then
+        player:startEvent(0x0005);
+    else
+        player:startEvent(0x0014);
+    end
 end;
 
 -----------------------------------
@@ -35,8 +35,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -44,6 +44,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;

@@ -4,33 +4,54 @@
 -- Note: Place holder Charybdis
 -----------------------------------
 
-require("/scripts/zones/Sea_Serpent_Grotto/MobIDs");
+require("scripts/globals/groundsofvalor");
+require("scripts/zones/Sea_Serpent_Grotto/MobIDs");
 
 -----------------------------------
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer)
+function onMobDeath(mob, player, isKiller)
+    checkGoVregime(player,mob,810,2);
+end;
 
-    checkGoVregime(killer,mob,810,2);
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
 
-    mob = mob:getID();
-    if (Charybdis_PH[mob] ~= nil) then
+function onMobDespawn(mob)
+    -- Get Devil Manta ID and check if it is a PH of Charybdis
+    local mobID = mob:getID()
 
-        Charybdis_ToD = GetServerVariable("[POP]Charybdis");
-        if (Charybdis_ToD <= os.time(t) and GetMobAction(Charybdis) == 0 and math.random((1),(10)) == 10) then
-            UpdateNMSpawnPoint(Charybdis);
-            GetMobByID(Charybdis):setRespawnTime(GetMobRespawnTime(mob));
-            SetServerVariable("[PH]Charybdis", mob);
-            DeterMob(mob, true);
-        else
-            r = math.random((1),(2));
-            if (mob ~= Charybdis_PH[r]) then
-                DeterMob(mob, true);
-                DeterMob(Charybdis_PH[r], false);
-                GetMobByID(Charybdis_PH[r]):setRespawnTime(GetMobRespawnTime(mob));
+    local nmID = Charybdis_PH[mobID]
+    -- Check if Devil Manta is within the Charybdis_PH table
+    if nmID ~= nil then
+        -- printf("%u is a PH",mob);
+        -- Get Charybdis's previous ToD
+        local nm = GetMobByID(nmID)
+        local ToD = nm:getLocalVar("ToD")
+
+        -- Check if Charybdis window is open, and there is not a Charybdis popped already (or waiting to pop)
+        if ToD <= os.time() and nm:isSpawned() == false and nm:getRespawnTime() == 0 then
+            -- printf("Charybdis window open");
+            -- Give Devil_Manta 10 percent chance to pop Charybdis
+            if (math.random(1,10) == 5) then
+                -- printf("Charybdis will pop");
+                UpdateNMSpawnPoint(nmID)
+                nm:setRespawnTime(GetMobRespawnTime(mobID))
+                nm:addListener("DESPAWN", "CHARYBDIS_PH", function(mob)
+                    -- Set Charybdis's ToD
+                    mob:setLocalVar("ToD", os.time() + math.random(28800,43200))
+                    DisallowRespawn(mob:getID(), true)
+
+                    -- Set PH back to normal, then set to respawn spawn
+                    local PH = mobID
+                    DisallowRespawn(PH, false)
+                    GetMobByID(PH):setRespawnTime(GetMobRespawnTime(PH))
+                    mob:removeListener("CHARYBDIS_PH")
+                end)
+                DisallowRespawn(mobID, true)
             end
         end
     end
-
 end;

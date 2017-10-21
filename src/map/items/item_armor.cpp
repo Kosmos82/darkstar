@@ -36,6 +36,7 @@ CItemArmor::CItemArmor(uint16 id) : CItemUsable(id)
 	m_shieldSize   = 0;
 	m_scriptType   = 0;
 	m_reqLvl       = 255;
+    m_iLvl         = 0;
 	m_equipSlotID  = 255;
     m_absorption   = 0;
 }
@@ -60,7 +61,7 @@ uint16 CItemArmor::getEquipSlotId()
 	return m_equipSlotID;
 }
 
-uint8 CItemArmor::getRemoveSlotId()
+uint16 CItemArmor::getRemoveSlotId()
 {
 	return m_removeSlotID;
 }
@@ -68,6 +69,11 @@ uint8 CItemArmor::getRemoveSlotId()
 uint8 CItemArmor::getReqLvl()
 {
 	return m_reqLvl;
+}
+
+uint8 CItemArmor::getILvl()
+{
+    return m_iLvl;
 }
 
 uint32 CItemArmor::getJobs()
@@ -78,6 +84,11 @@ uint32 CItemArmor::getJobs()
 void CItemArmor::setReqLvl(uint8 lvl)
 {
 	m_reqLvl = lvl;
+}
+
+void CItemArmor::setILvl(uint8 lvl)
+{
+    m_iLvl = lvl;
 }
 
 void CItemArmor::setJobs(uint32 jobs)
@@ -100,7 +111,7 @@ void CItemArmor::setEquipSlotId(uint16 equipSlot)
 	m_equipSlotID = equipSlot;
 }
 
-void CItemArmor::setRemoveSlotId(uint8 removSlot)
+void CItemArmor::setRemoveSlotId(uint16 removSlot)
 {
 	m_removeSlotID = removSlot;
 }
@@ -131,7 +142,7 @@ uint8 CItemArmor::getShieldAbsorption()
 
 bool CItemArmor::IsShield()
 {
-    return m_shieldSize > 0 && m_shieldSize < 6;
+    return m_shieldSize > 0 && m_shieldSize <= 6;
 }
 
 /************************************************************************
@@ -162,7 +173,7 @@ void CItemArmor::setScriptType(uint16 ScriptType)
 
 void CItemArmor::addModifier(CModifier* modifier)
 {
-    if (IsShield() && modifier->getModID() == MOD_DEF)
+    if (IsShield() && modifier->getModID() == Mod::DEF)
     {
         // reduction calc source: www.bluegartr.com/threads/84830-Shield-Asstery
         // http://www.ffxiah.com/forum/topic/21671/paladin-faq-info-and-trade-studies/33/ <~Aegis and Ochain
@@ -191,7 +202,7 @@ void CItemArmor::addModifier(CModifier* modifier)
     modList.push_back(modifier);
 }
 
-int16 CItemArmor::getModifier(uint16 mod)
+int16 CItemArmor::getModifier(Mod mod)
 {
 	for (uint16 i = 0; i < modList.size(); ++i)
 	{
@@ -201,6 +212,11 @@ int16 CItemArmor::getModifier(uint16 mod)
 		}
 	}
 	return 0;
+}
+
+void CItemArmor::addPetModifier(CPetModifier* modifier)
+{
+    petModList.push_back(modifier);
 }
 
 void CItemArmor::addLatent(CLatentEffect* latent)
@@ -266,7 +282,7 @@ void CItemArmor::SetAugmentMod(uint16 type, uint8 value)
 
 
     // obtain augment info by querying the db
-    const int8* fmtQuery = "SELECT * FROM augments WHERE augmentId = %u";
+    const int8* fmtQuery = "SELECT augmentId, multiplier, modId, `value`, `isPet`, `petType` FROM augments WHERE augmentId = %u";
 
     int32 ret = Sql_Query(SqlHandle, fmtQuery, type);
 
@@ -274,13 +290,23 @@ void CItemArmor::SetAugmentMod(uint16 type, uint8 value)
         Sql_NumRows(SqlHandle) != 0 &&
         Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
-        uint32 multiplier = (uint32)Sql_GetUIntData(SqlHandle, 1);
-        uint32 modId = (uint32)Sql_GetUIntData(SqlHandle, 2);
-        int32 modValue = (int32)Sql_GetIntData(SqlHandle, 3);
+        uint8 multiplier = (uint8)Sql_GetUIntData(SqlHandle, 1);
+        Mod modId = static_cast<Mod>(Sql_GetUIntData(SqlHandle, 2));
+        int16 modValue = (int16)Sql_GetIntData(SqlHandle, 3);
+
+        // type is 0 unless mod is for pets
+        uint8 isPet = (uint8)Sql_GetUIntData(SqlHandle, 4);
+        PetModType petType = static_cast<PetModType>(Sql_GetIntData(SqlHandle, 5));
 
         // apply modifier to item. increase modifier power by 'value' (default magnitude 1 for most augments) if multiplier isn't specified
         // otherwise increase modifier power using the multiplier
-        addModifier(new CModifier(modId, (multiplier > 0 ? modValue + (value * multiplier) : modValue + value)));
+        // check if we should be adding to or taking away from the mod power (handle scripted augments properly)
+        modValue = (modValue > 0 ? modValue + value : modValue - value) * (multiplier > 1 ? multiplier : 1);
+
+        if (!isPet)
+            addModifier(new CModifier(modId, modValue));
+        else
+            addPetModifier(new CPetModifier(modId, petType, modValue));
     }
 }
 

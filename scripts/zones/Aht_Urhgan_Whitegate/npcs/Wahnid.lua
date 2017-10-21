@@ -2,7 +2,7 @@
 --  Area: Aht Urhgan Whitegate
 --  NPC:  Wahnid
 --  Type: Guild Merchant: Fishing Guild
---  @pos -31.720 -6.000 -94.919 50
+-- !pos -31.720 -6.000 -94.919 50
 -----------------------------------
 package.loaded["scripts/zones/Aht_Urhgan_Whitegate/TextIDs"] = nil;
 -----------------------------------
@@ -23,9 +23,9 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	if(player:sendGuild(60426,1,18,6)) then
-		player:showText(npc,WAHNID_SHOP_DIALOG);
-	end
+    if (player:sendGuild(60426,1,18,6)) then
+        player:showText(npc,WAHNID_SHOP_DIALOG);
+    end
 end;
 
 -----------------------------------
@@ -33,8 +33,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,7 +42,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

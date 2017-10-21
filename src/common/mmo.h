@@ -29,6 +29,8 @@
 #include <string>
 #include <time.h>
 #include <stdlib.h>
+#include <bitset>
+#include <array>
 
 #define FIFOSIZE_SERVERLINK	256*1024
 
@@ -37,7 +39,7 @@
 
 // флаги перед именем персонажа
 
-enum FLAGTYPE
+enum FLAGTYPE : uint32
 {
     FLAG_INEVENT        = 0x00000002,
     FLAG_CHOCOBO        = 0x00000040,
@@ -87,7 +89,10 @@ enum MSGSERVTYPE : uint8
     MSG_PT_DISBAND,
     MSG_DIRECT,
     MSG_LINKSHELL_RANK_CHANGE,
-    MSG_LINKSHELL_REMOVE
+    MSG_LINKSHELL_REMOVE,
+
+    // gm commands
+    MSG_SEND_TO_ZONE,
 };
 
 typedef std::string string_t;
@@ -98,7 +103,12 @@ typedef std::string string_t;
 struct look_t 
 {
 	uint16 size;
-	uint8  face, race;
+    union {
+        struct {
+            uint8  face, race;
+        };
+        uint16 modelid;
+    };
 	uint16 head, body, hands, legs, feet, main, sub, ranged;
 };
 
@@ -136,10 +146,15 @@ struct skills_t
 	uint8 rank[64];
 };
 
+struct keyitems_table_t
+{
+    std::bitset<512> keyList;
+    std::bitset<512> seenList;
+};
+
 struct keyitems_t 
 {
-	 uint8 keysList[320];	// таблица ключевых предметов
-	 uint8 seenList[320];	// таблица ключевых предметов, отмеченных как "увиденные" 
+    std::array<keyitems_table_t, 7> tables;
 };
 
 struct position_t 

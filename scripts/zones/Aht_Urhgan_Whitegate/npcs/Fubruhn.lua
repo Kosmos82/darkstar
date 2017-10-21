@@ -56,7 +56,7 @@ function onTrade(player,npc,trade)
     local numBronze = trade:getItemQty(2184);
     local numMythril = trade:getItemQty(2186);
     local numGold = trade:getItemQty(2187);
-    if(player:getCurrentMission(TOAU) >= 2) then
+    if (player:getCurrentMission(TOAU) >= 2) then
         if (numBronze > 0 and numMythril == 0 and numGold == 0) then
             if (addMogLockerExpiryTime(player, numBronze)) then
                 -- remove bronze
@@ -102,7 +102,7 @@ function onTrigger(player,npc)
     -- if < mission 2 then 
     --      player:startEvent(0x0258); 
     -- else
-    if(player:getCurrentMission(TOAU) >= 2) then	
+    if (player:getCurrentMission(TOAU) >= 2) then    
         local accessType = getMogLockerAccessType(player);
         local mogLockerExpiryTimestamp = getMogLockerExpiryTimestamp(player); 
     
@@ -118,8 +118,8 @@ function onTrigger(player,npc)
         MOGLOCKER_ALLAREAS_VALID_DAYS);
     else
         player:startEvent(0x0258);
-	end
-	
+    end
+    
 end; 
 
 -----------------------------------
@@ -127,8 +127,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -136,8 +136,8 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("fCSID: %u",csid);
---printf("fRESULT: %u",option);
+    -- printf("fCSID: %u",csid);
+    -- printf("fRESULT: %u",option);
     if (csid == 600 and option == 3) then
         local accessType = player:getVar(MOGLOCKER_PLAYERVAR_ACCESS_TYPE);
         if (accessType == MOGLOCKER_ACCESS_TYPE_ALLAREAS) then
@@ -151,6 +151,4 @@ function onEventFinish(player,csid,option)
         end
     end
 end;
-
-
 

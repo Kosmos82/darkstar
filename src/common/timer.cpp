@@ -1,6 +1,5 @@
 // Copyright (c) 2010-2015 Darkstar Dev Teams
 
-#include "../common/malloc.h"
 #include "../common/showmsg.h"
 #include "../common/utils.h"
 #include "../common/timer.h"
@@ -20,7 +19,7 @@
 
 
 // server startup time
-time_t start_time;
+time_point start_time;
 
 /*----------------------------
  * 	Get tick time
@@ -118,9 +117,9 @@ uint32 gettick(void)
 #endif
 /////////////////////////////////////////////////////////////////////////
 
-uint32 get_uptime(void)
+duration get_uptime(void)
 {
-	return (uint32)difftime(time(NULL), start_time);
+    return server_clock::now() - start_time;
 }
 
 void timer_init(void)
@@ -128,10 +127,14 @@ void timer_init(void)
 #if defined(ENABLE_RDTSC)
 	rdtsc_calibrate();
 #endif
-
-	time(&start_time);
+    start_time = server_clock::now();
 }
 
 void timer_final(void)
 {
+}
+
+time_point get_server_start_time(void)
+{
+    return start_time;
 }

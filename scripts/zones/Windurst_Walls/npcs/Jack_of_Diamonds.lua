@@ -1,8 +1,8 @@
 -----------------------------------
---	Area: Windurst Walls
---	NPC: Jack of Diamonds
---	Adventurer's Assistant
---	Working 100%
+-- Area: Windurst Walls
+-- NPC: Jack of Diamonds
+-- Adventurer's Assistant
+-- Working 100%
 -------------------------------------
 
 require("scripts/globals/settings");
@@ -14,11 +14,11 @@ require("scripts/zones/Windurst_Walls/TextIDs");
 ----------------------------------- 
 
 function onTrade(player,npc,trade) 
-	if (trade:getItemCount() == 1 and trade:hasItemQty(0x218,1) == true) then
-		player:startEvent(0x2712,GIL_RATE*50);
-		player:addGil(GIL_RATE*50);
-		player:tradeComplete();
-	end
+    if (trade:getItemCount() == 1 and trade:hasItemQty(0x218,1) == true) then
+        player:startEvent(0x2712,GIL_RATE*50);
+        player:addGil(GIL_RATE*50);
+        player:tradeComplete();
+    end
 end;
 
 ----------------------------------- 
@@ -26,7 +26,7 @@ end;
 -----------------------------------
  
 function onTrigger(player,npc) 
-	player:startEvent(0x2711,0,2);
+    player:startEvent(0x2711,0,2);
 end; 
 
 -----------------------------------
@@ -34,8 +34,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -43,8 +43,8 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 

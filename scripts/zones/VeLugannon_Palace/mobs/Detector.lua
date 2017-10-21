@@ -1,7 +1,9 @@
 -----------------------------------
 -- Area: VeLugannon Palace
--- MOB:  Detector
+--  MOB: Detector
 -----------------------------------
+
+require("scripts/globals/groundsofvalor");
 
 -----------------------------------
 -- onMobInitialize Action
@@ -74,19 +76,8 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer)
-
-    checkGoVregime(killer,mob,743,1);
-
-    local Detector = mob:getID();
-    local Caretaker = mob:getID() + 1;
-
-    GetMobByID(Detector):resetLocalVars();
-
-    if (GetMobAction(Caretaker) ~= 0) then
-        DespawnMob(Caretaker);
-    end
-
+function onMobDeath(mob, player, isKiller)
+    checkGoVregime(player,mob,743,1);
 end;
 
 -----------------------------------

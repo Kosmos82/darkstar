@@ -1,15 +1,9 @@
 -----------------------------------
---  Area: Bastok Mines
---   NPC: Gorvik
---  Type: Past Event Watcher
--- @zone: 234
---  @pos 21.033 -1 -98.486
---
--- Auto-Script: Requires Verification (Verfied by Brawndo)
+-- Area: Bastok Mines
+--  NPC: Gorvik
+-- Type: Past Event Watcher
+-- !pos 21.033 -1 -98.486 234
 -----------------------------------
-
-package.loaded["scripts/zones/Bastok_Mines/TextIDs"] = nil;
-require("scripts/zones/Bastok_Mines/TextIDs");
 
 -----------------------------------
 -- onTrade Action
@@ -23,7 +17,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x00b9);
+    player:startEvent(0x00b9);
 end;
 
 -----------------------------------
@@ -31,8 +25,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -40,7 +34,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-

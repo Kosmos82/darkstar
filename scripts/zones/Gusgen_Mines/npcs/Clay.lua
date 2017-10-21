@@ -2,7 +2,7 @@
 -- Area: Gusgen Mines
 -- NPC:  Clay
 -- Involved in Quest: A Potter's Preference
--- @pos 117 -21 432 196
+-- !pos 117 -21 432 196
 -----------------------------------
 package.loaded["scripts/zones/Gusgen_Mines/TextIDs"] = nil;
 -----------------------------------
@@ -25,8 +25,8 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:addItem(569,1); --569 - dish_of_gusgen_clay
-	player:messageSpecial(ITEM_OBTAINED,569); -- dish_of_gusgen_clay
+    player:addItem(569,1); --569 - dish_of_gusgen_clay
+    player:messageSpecial(ITEM_OBTAINED,569); -- dish_of_gusgen_clay
 end;
 
 -----------------------------------
@@ -34,8 +34,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID2: %u",csid);
---printf("RESULT2: %u",option);
+    -- printf("CSID2: %u",csid);
+    -- printf("RESULT2: %u",option);
 end;
 
 -----------------------------------
@@ -43,6 +43,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;

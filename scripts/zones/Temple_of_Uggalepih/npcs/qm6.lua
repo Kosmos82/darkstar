@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Temple of Uggalepih
 -- NPC:  ??? (Sacrificial Goblet NM)
--- @pos 300 1 255 159
+-- !pos 300 1 255 159
 -----------------------------------
 package.loaded["scripts/zones/Temple_of_Uggalepih/TextIDs"] = nil;
 -----------------------------------
@@ -13,14 +13,14 @@ require("scripts/zones/Temple_of_Uggalepih/TextIDs");
 -----------------------------------
 
 function onTrade(player,npc,trade)
-	
-	-- Trade Uggalepih Whistle
-	if(trade:hasItemQty(1184,1) and trade:getItemCount() == 1) then 
-		player:tradeComplete();
-		SpawnMob(17428816,300):updateEnmity(player);
-	else
-		player:messageSpecial(NOTHING_HAPPENS);
-	end
+
+    -- Trade Uggalepih Whistle
+    if (trade:hasItemQty(1184,1) and trade:getItemCount() == 1) then
+        player:tradeComplete();
+        SpawnMob(17428816):updateClaim(player);
+    else
+        player:messageSpecial(NOTHING_HAPPENS);
+    end
 
 end;
 
@@ -29,5 +29,5 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:messageSpecial(NOTHING_OUT_OF_ORDINARY);
+    player:messageSpecial(NOTHING_OUT_OF_ORDINARY);
 end;

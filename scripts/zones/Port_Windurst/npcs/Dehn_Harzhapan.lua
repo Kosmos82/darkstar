@@ -2,8 +2,8 @@
 --  Area: Port Windurst
 --   NPC: Dehn Harzhapan
 --  Type: Standard NPC
--- @zone: 240
---  @pos -7.974 -7 152.633
+-- @zone 240
+-- !pos -7.974 -7 152.633
 --
 -- Auto-Script: Requires Verification (Verfied By Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x2722);
+    player:startEvent(0x2722);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

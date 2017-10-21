@@ -1,40 +1,32 @@
------------------------------------	
--- Area: Bhaflau Thickets	
--- MOB:  Sea Puk
+-----------------------------------
+-- Area: Bhaflau Thickets
+--  MOB: Sea Puk
 -- Note: Place holder Nis Puk
------------------------------------	
+-----------------------------------
+require("scripts/zones/Bhaflau_Thickets/MobIDs");
 
-require("/scripts/zones/Bhaflau_Thickets/MobIDs");
-	
------------------------------------	
--- onMobDeath	
------------------------------------	
-	
-function onMobDeath(mob,killer)	
+-----------------------------------
+-- onMobDeath
+-----------------------------------
 
-    -- Get Sea Puk ID and check if it is a PH of NP
-    mob = mob:getID();
+function onMobDeath(mob, player, isKiller)
+end;
 
-    -- Check if Sea Puk is within the Nis_Puk_PH table
-    if (Nis_Puk_PH[mob] ~= nil) then
-        -- printf("%u is a PH",mob);
-        -- Get NP's previous ToD
-        NP_ToD = GetServerVariable("[POP]Nis_Puk");
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
 
-        -- Check if NP window is open, and there is not an NP popped already(ACTION_NONE = 0)
-        if (NP_ToD <= os.time(t) and GetMobAction(Nis_Puk) == 0) then
-
-            -- printf("NP window open");
-            -- Give Sea Puk 5 percent chance to pop NP
-            if (math.random(1,20) >= 1) then
-                -- printf("NP will pop");
+function onMobDespawn(mob)
+    local mobID = mob:getID();
+    if (Nis_Puk_PH[mobID] ~= nil) then
+        local NP_ToD = GetServerVariable("[POP]Nis_Puk");
+        if (NP_ToD <= os.time() and GetMobAction(Nis_Puk) == 0) then
+            if (math.random(1,20) >= 1) then -- Give Sea Puk 5 percent chance to pop NP
                 UpdateNMSpawnPoint(Nis_Puk);
-                GetMobByID(Nis_Puk):setRespawnTime(GetMobRespawnTime(mob));
-                SetServerVariable("[PH]Nis_Puk", mob);
-                DeterMob(mob, true);
+                GetMobByID(Nis_Puk):setRespawnTime(GetMobRespawnTime(mobID));
+                SetServerVariable("[PH]Nis_Puk", mobID);
+                DisallowRespawn(mobID, true);
             end
         end
     end
-
-end;	
-
+end;

@@ -21,10 +21,17 @@ function onSpellCast(caster,target,spell)
     power = 50;
 
     -- Duration, including resistance.  Unconfirmed.
-    duration = 300 * applyResistanceEffect(caster,spell,target,dINT,35,0,EFFECT_CURSE_I);
+    duration = 300;
+    local params = {};
+    params.diff = nil;
+    params.attribute = MOD_INT;
+    params.skillType = 35;
+    params.bonus = 0;
+    params.effect = EFFECT_CURSE_I;
+    duration = duration * applyResistanceEffect(caster, target, spell, params);
 
-    if(duration >= 150) then --Do it!
-        if(target:addStatusEffect(EFFECT_CURSE_I,power,0,duration)) then
+    if (duration >= 150) then --Do it!
+        if (target:addStatusEffect(EFFECT_CURSE_I,power,0,duration)) then
             spell:setMsg(236);
         else
             spell:setMsg(75);

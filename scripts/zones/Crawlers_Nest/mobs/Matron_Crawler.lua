@@ -1,7 +1,7 @@
------------------------------------
+ -----------------------------------
 -- Area: Crawler's Nest
--- NPC:  Matron Crawler
--- @pos -141.158 -33.689 20.944 197
+--  MOB: Matron Crawler
+-- !pos -141.158 -33.689 20.944 197
 -----------------------------------
 
 
@@ -13,9 +13,16 @@ function onMobSpawn(mob)
 end;
 
 -----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
+     GetNPCByID(17584460):setStatus(STATUS_NORMAL); -- qm6
+end;
+
+-----------------------------------
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer)
-	GetNPCByID(17584460):hideNPC(900); -- qm6
+function onMobDeath(mob, player, isKiller)
 end;

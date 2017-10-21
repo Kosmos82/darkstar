@@ -28,46 +28,17 @@ This file is part of DarkStar-server source code.
 #include "../../common/mmo.h"
 
 #include <map>
-#include <list>
 #include <deque>
 #include <mutex>
+#include <bitset>
 
 #include "battleentity.h"
-#include "../item_container.h"
-#include "../linkshell.h"
 #include "petentity.h"
-#include "automatonentity.h"
-
-#include "../recast_container.h"
-#include "../latent_effect_container.h"
-#include "../trade_container.h"
-#include "../treasure_pool.h"
-#include "../merit.h"
-#include "../instance.h"
-#include "../universal_container.h"
-#include "../utils/itemutils.h"
-
-// Quest Areas
-
-enum QUESTAREA
-{
-    QUESTS_SANDORIA = 0,
-    QUESTS_BASTOK = 1,
-    QUESTS_WINDURST = 2,
-    QUESTS_JEUNO = 3,
-    QUESTS_OTHER = 4,
-    QUESTS_OUTLANDS = 5,
-    QUESTS_AHTURHGAN = 6,
-    QUESTS_CRYSTALWAR = 7,
-    QUESTS_ABYSSEA = 8,
-    QUESTS_ADOULIN = 9,
-    QUESTS_COALITION = 10
-};
 
 #define MAX_QUESTAREA	 11
 #define MAX_QUESTID     256
-#define MAX_MISSIONAREA	 13
-#define MAX_MISSIONID    95
+#define MAX_MISSIONAREA	 15
+#define MAX_MISSIONID    226
 
 struct jobs_t
 {
@@ -103,10 +74,11 @@ struct profile_t
     uint8	   nation;			// принадлежность к государству
     uint8	   mhflag;			// флаг выхода из MogHouse
     uint16	   title;			// звание
-    uint16     fame[5];			// известность
+    uint16     fame[15];		// известность
     uint8 	   rank[3];			// рагн в трех государствах
     uint32	   rankpoints;	    // очки ранга в трех государствах
     location_t home_point;		// точка возрождения персонажа
+    uint8      campaign_allegiance;
 };
 
 
@@ -157,7 +129,7 @@ struct UnlockedAttachments_t
 struct GearSetMod_t
 {
     uint8	modNameId;
-    uint16	modId;
+    Mod  	modId;
     uint16	modValue;
 };
 
@@ -168,6 +140,19 @@ struct GearSetMod_t
 ************************************************************************/
 
 class CBasicPacket;
+class CLinkshell;
+class CMeritPoints;
+class CCharRecastContainer;
+class CLatentEffectContainer;
+class CTradeContainer;
+class CItemContainer;
+class CUContainer;
+class CItemArmor;
+class CAutomatonEntity;
+class CAbilityState;
+class CRangeState;
+class CItemState;
+class CItemUsable;
 
 typedef std::deque<CBasicPacket*> PacketList_t;
 typedef std::map<uint32, CBaseEntity*> SpawnIDList_t;
@@ -188,16 +173,17 @@ public:
     bazaar_t				bazaar;							// все данные, необходимые для таботы bazaar
     uint16					m_EquipFlag;					// текущие события, обрабатываемые экипировкой (потом упакую в структуру, вместе с equip[])
     uint16					m_EquipBlock;					// заблокированные ячейки экипировки
-    bool					m_EquipSwap;					// true if equipment was recently changed
+    uint16                  m_StatsDebilitation;            // Debilitation arrows
     uint8					equip[18];						//      SlotID where equipment is
     uint8					equipLoc[18];					// ContainerID where equipment is
+    uint16                  styleItems[16];                 // Item IDs for items that are style locked.
 
     uint8					m_ZonesList[36];				// список посещенных персонажем зон
-    uint8					m_SpellList[128];				// список изученных заклинаний
-    uint8					m_EnabledSpellList[128];		// spell list of enabled spells
+    std::bitset<1024>	    m_SpellList;				    // список изученных заклинаний
     uint8					m_TitleList[94];				// список заслуженных завний
-    uint8					m_Abilities[46];				// список текущих способностей
+    uint8					m_Abilities[62];				// список текущих способностей
     uint8					m_LearnedAbilities[46];			// learnable abilities (corsair rolls)
+    std::bitset<49>         m_LearnedWeaponskills;          // learnable weaponskills
     uint8					m_TraitList[16];				// список постянно активных способностей в виде битовой маски
     uint8					m_PetCommands[32];				// список доступных команд питомцу
     uint8					m_WeaponSkills[32];
@@ -205,9 +191,9 @@ public:
     missionlog_t			m_missionLog[MAX_MISSIONAREA];	// список миссий
     assaultlog_t			m_assaultLog;					// список assault миссий
     campaignlog_t			m_campaignLog;					// список campaing миссий
-    uint32					m_rangedDelay;					// ranged attack delay (with timestamp for repeat attacks, hence 32bit)for items, abilities and magic
     uint32					m_lastBcnmTimePrompt;			// the last message prompt in seconds
     PetInfo_t				petZoningInfo;					// used to repawn dragoons pets ect on zone
+    void					setPetZoningInfo();				// set pet zoning info (when zoning and logging out)
     void					resetPetZoningInfo();			// reset pet zoning info (when changing job ect)
     uint8					m_SetBlueSpells[20];			// The 0x200 offsetted blue magic spell IDs which the user has set. (1 byte per spell)
 
@@ -230,22 +216,21 @@ public:
 
     uint8             GetGender();                  // узнаем пол персонажа
 
-    int32			  firstPacketSize();            // размер первого пакета в PacketList
     void              clearPacketList();            // отчистка PacketList
     void              pushPacket(CBasicPacket*);    // добавление копии пакета в PacketList
+    void              pushPacket(std::unique_ptr<CBasicPacket>);    // push packet to packet list
     bool			  isPacketListEmpty();          // проверка размера PacketList
     CBasicPacket*	  popPacket();                  // получение первого пакета из PacketList
     PacketList_t      getPacketList();              // returns a COPY of packet list
     size_t            getPacketCount();
     void              erasePackets(uint8 num);      // erase num elements from front of packet list
+    virtual void      HandleErrorMessage(std::unique_ptr<CBasicPacket>&) override;
 
     CLinkshell*       PLinkshell1;                  // linkshell, в которой общается персонаж
     CLinkshell*       PLinkshell2;                  // linkshell 2
     CTreasurePool*	  PTreasurePool;                // сокровища, добытые с монстров
     CMeritPoints*     PMeritPoints;                 //
     bool			  MeritMode;					//If true then player is meriting
-
-    CRecastContainer* PRecastContainer;             //
 
     CLatentEffectContainer* PLatentEffectContainer;
 
@@ -300,13 +285,14 @@ public:
 
     bool			  getWeaponSkillKill();
     void			  setWeaponSkillKill(bool isWeaponSkillKill);
-    bool			  getMijinGakure();
-    void			  setMijinGakure(bool isMijinGakure);
     bool              getStyleLocked();
     void              setStyleLocked(bool isStyleLocked);
+    bool              getBlockingAid();
+    void              setBlockingAid(bool isBlockingAid);
 
-    bool			  isRapidShot;										// Flag to track rapid shot
-    bool			  secondDoubleShotTaken;							// Flag to track number of double shots taken
+    bool              m_EquipSwap;					// true if equipment was recently changed
+    bool              m_EffectsChanged;
+    time_point        m_LastSynthTime;
 
     int16 addTP(int16 tp) override;
     int32 addHP(int32 hp) override;
@@ -324,26 +310,61 @@ public:
     void        ReloadPartyDec();
     bool        ReloadParty();
 
-    void        UpdateEntity() override;
+    void        PostTick() override;
+
+    virtual void addTrait(CTrait*) override;
+    virtual void delTrait(CTrait*) override;
+
+    virtual bool ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags) override;
+    virtual bool CanUseSpell(CSpell*) override;
+
+    virtual void Die() override;
+    void Die(duration);
+    void Raise();
+
+    /* State callbacks */
+    virtual bool CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg) override;
+    virtual bool OnAttack(CAttackState&, action_t&) override;
+    virtual bool OnAttackError(CAttackState&) override;
+    virtual CBattleEntity* IsValidTarget(uint16 targid, uint16 validTargetFlags, std::unique_ptr<CBasicPacket>& errMsg) override;
+    virtual void OnChangeTarget(CBattleEntity* PNewTarget) override;
+    virtual void OnDisengage(CAttackState&) override;
+    virtual void OnCastFinished(CMagicState&, action_t&) override;
+    virtual void OnCastInterrupted(CMagicState&, action_t&, MSGBASIC_ID msg) override;
+    virtual void OnWeaponSkillFinished(CWeaponSkillState&, action_t&) override;
+    virtual void OnAbility(CAbilityState&, action_t&) override;
+    virtual void OnRangedAttack(CRangeState&, action_t&);
+    virtual void OnDeathTimer() override;
+    virtual void OnRaise() override;
+    virtual void OnItemFinish(CItemState&, action_t&);
 
     CCharEntity();									// конструктор
     ~CCharEntity();									// деструктор
 
+protected:
+    bool IsMobOwner(CBattleEntity* PTarget);
+    void TrackArrowUsageForScavenge(CItemWeapon* PAmmo);
+
+
 private:
 
-    CItemContainer*   m_Inventory;
-    CItemContainer*   m_Mogsafe;
-    CItemContainer*   m_Storage;
-    CItemContainer*	  m_Tempitems;
-    CItemContainer*   m_Moglocker;
-    CItemContainer*	  m_Mogsatchel;
-    CItemContainer*	  m_Mogsack;
-    CItemContainer*   m_Mogcase;
-    CItemContainer*   m_Wardrobe;
+    std::unique_ptr<CItemContainer>   m_Inventory;
+    std::unique_ptr<CItemContainer>   m_Mogsafe;
+    std::unique_ptr<CItemContainer>   m_Storage;
+    std::unique_ptr<CItemContainer>   m_Tempitems;
+    std::unique_ptr<CItemContainer>   m_Moglocker;
+    std::unique_ptr<CItemContainer>   m_Mogsatchel;
+    std::unique_ptr<CItemContainer>   m_Mogsack;
+    std::unique_ptr<CItemContainer>   m_Mogcase;
+    std::unique_ptr<CItemContainer>   m_Wardrobe;
+    std::unique_ptr<CItemContainer>   m_Mogsafe2;
+    std::unique_ptr<CItemContainer>   m_Wardrobe2;
+    std::unique_ptr<CItemContainer>   m_Wardrobe3;
+    std::unique_ptr<CItemContainer>   m_Wardrobe4;
 
     bool			m_isWeaponSkillKill;
-    bool			m_isMijinGakure;
     bool            m_isStyleLocked;
+    bool            m_isBlockingAid;
     bool			m_reloadParty;
 
     PacketList_t      PacketList;					// в этом списке хранятся все пакеты, предназначенные для отправки персонажу

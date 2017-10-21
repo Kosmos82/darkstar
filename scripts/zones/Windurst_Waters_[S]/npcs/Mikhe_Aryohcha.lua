@@ -2,8 +2,8 @@
 --  Area: Windurst Waters (S)
 --   NPC: Mikhe Aryohcha
 --  Type: Standard NPC
--- @zone: 94
---  @pos -56.645 -4.5 13.014
+-- @zone 94
+-- !pos -56.645 -4.5 13.014
 --
 -- Auto-Script: Requires Verification (Verified by Brawndo)
 -----------------------------------
@@ -24,7 +24,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc, MIKHE_ARYOHCHA_DIALOG);
+    player:showText(npc, MIKHE_ARYOHCHA_DIALOG);
 end;
 
 -----------------------------------
@@ -32,8 +32,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -41,7 +41,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

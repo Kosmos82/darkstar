@@ -2,8 +2,8 @@
 --  Area: Port Windurst
 --   NPC: Newlyn
 --  Type: Standard NPC
--- @zone: 240
---  @pos 200.673 -6.601 108.665
+-- @zone 240
+-- !pos 200.673 -6.601 108.665
 --
 -- Auto-Script: Requires Verification (Verfied By Brawndo)
 -----------------------------------
@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x00be);
+    player:startEvent(0x00be);
 end;
 
 -----------------------------------
@@ -30,8 +30,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -39,7 +39,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

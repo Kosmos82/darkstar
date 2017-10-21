@@ -2,7 +2,6 @@
 -- Spell: Regen IV
 -- Gradually restores target's HP.
 -----------------------------------------
--- Cleric's Briault enhances the effect
 -- Scale down duration based on level
 -- Composure increases duration 3x
 -----------------------------------------
@@ -15,38 +14,30 @@ require("scripts/globals/magic");
 -----------------------------------------
 
 function onMagicCastingCheck(caster,target,spell)
-	return 0;
+    return 0;
 end;
 
 function onSpellCast(caster,target,spell)
 
-	local hp = 30;
-	local meritBonus = caster:getMerit(MERIT_REGEN_EFFECT);
+    local hp = math.ceil(30 * (1 + 0.01 * caster:getMod(MOD_REGEN_MULTIPLIER))); -- spell base times gear multipliers
+    hp = hp + caster:getMerit(MERIT_REGEN_EFFECT); -- bonus hp from merits
+    hp = hp + caster:getMod(MOD_LIGHT_ARTS_REGEN); -- bonus hp from light arts
 
-	--printf("Regen IV: Merit Bonus = Extra +%d", meritBonus);	
+    local duration = 60;
 
-	local body = caster:getEquipID(SLOT_BODY);
-	if (body == 15089 or body == 14502) then
-		hp = hp+4;
-	end
+    duration = duration + caster:getMod(MOD_REGEN_DURATION);
 
-	hp = hp + caster:getMod(MOD_REGEN_EFFECT) + meritBonus;
+    duration = calculateDurationForLvl(duration, 86, target:getMainLvl());
 
-	local duration = 60;
+    if (target:hasStatusEffect(EFFECT_REGEN) and target:getStatusEffect(EFFECT_REGEN):getTier() == 1) then
+        target:delStatusEffect(EFFECT_REGEN);
+    end
 
-	duration = duration + caster:getMod(MOD_REGEN_DURATION);
+    if (target:addStatusEffect(EFFECT_REGEN,hp,3,duration,0,0,0)) then
+        spell:setMsg(230);
+    else
+        spell:setMsg(75); -- no effect
+    end
 
-	duration = calculateDurationForLvl(duration, 86, target:getMainLvl());
-
-	if(target:hasStatusEffect(EFFECT_REGEN) and target:getStatusEffect(EFFECT_REGEN):getTier() == 1) then
-		target:delStatusEffect(EFFECT_REGEN);
-	end
-
-	if(target:addStatusEffect(EFFECT_REGEN,hp,3,duration,0,0,0)) then
-		spell:setMsg(230);
-	else
-		spell:setMsg(75); -- no effect
-	end
-
-	return EFFECT_REGEN;
+    return EFFECT_REGEN;
 end;

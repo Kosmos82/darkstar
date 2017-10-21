@@ -1,7 +1,7 @@
 -----------------------------------
---	Area: Mhaura
---	NPC: Albin
---	Standard Info NPC
+-- Area: Mhaura
+-- NPC: Albin
+-- Standard Info NPC
 -----------------------------------
 package.loaded["scripts/zones/Mhaura/TextIDs"] = nil;
 -----------------------------------
@@ -20,13 +20,13 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	
-	if(player:getZPos() <= 39) then
-		player:startEvent(0x00dc);
-	else
-		player:startEvent(0x00e5);
-	end
-	
+    
+    if (player:getZPos() <= 39) then
+        player:startEvent(0x00dc);
+    else
+        player:startEvent(0x00e5);
+    end
+    
 end;
 
 -----------------------------------
@@ -34,8 +34,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -43,9 +43,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-
-
-

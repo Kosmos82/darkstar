@@ -27,7 +27,7 @@ function onTrigger(player,npc)
         0x0284,  1840,1,     --Mythril Ore
         0x0343,   230,1,     --Flax Flower
         0x02BB,  5814,1,     --Oak Log
-		
+        
         0x02BA,    87,2,     --Ash Log
         0x02B6,  2599,2,     --Chestnut Log
         0x0280,    11,2,     --Copper Ore
@@ -37,7 +37,7 @@ function onTrigger(player,npc)
         0x0341,    18,3,     --Moko Grass
         0x0072,  1840,3      --My First Magic Kit
     }
-    showNationShop(player, WINDURST, stock);
+    showNationShop(player, NATION_WINDURST, stock);
 
 end;
 
@@ -46,8 +46,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -55,6 +55,6 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;

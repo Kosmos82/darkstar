@@ -3,9 +3,9 @@
 -- Item: Heat Rod
 -- Additional Effect: Lightning Damage
 -----------------------------------------
-
 require("scripts/globals/status");
 require("scripts/globals/magic");
+require("scripts/globals/msg");
 
 -----------------------------------
 -- onAdditionalEffect Action
@@ -26,9 +26,9 @@ function onAdditionalEffect(player,target,damage)
         dmg = adjustForTarget(target,dmg,ELE_LIGHTNING);
         dmg = finalMagicNonSpellAdjustments(player,target,ELE_LIGHTNING,dmg);
 
-        local message = 163;
+        local message = msgBasic.ADD_EFFECT_DMG;
         if (dmg < 0) then
-            message = 167;
+            message = msgBasic.ADD_EFFECT_HEAL;
         end
 
         return SUBEFFECT_LIGHTNING_DAMAGE,message,dmg;

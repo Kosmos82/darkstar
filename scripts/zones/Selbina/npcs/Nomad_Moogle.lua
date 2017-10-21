@@ -1,6 +1,6 @@
 -----------------------------------
 --
--- 	Nomad Moogle
+--     Nomad Moogle
 --
 -----------------------------------
 package.loaded["scripts/zones/Selbina/TextIDs"] = nil;
@@ -21,8 +21,8 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc,NOMAD_MOOGLE_DIALOG);
-	player:sendMenu(1);
+    player:showText(npc,NOMAD_MOOGLE_DIALOG);
+    player:sendMenu(1);
 end;
 
 -----------------------------------
@@ -31,8 +31,8 @@ end;
 
 function onEventUpdate(player,csid,option)
 --print("onEventUpdate");
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -41,9 +41,7 @@ end;
 
 function onEventFinish(player,csid,option)
 --print("onEventFinish");
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
-
-
 

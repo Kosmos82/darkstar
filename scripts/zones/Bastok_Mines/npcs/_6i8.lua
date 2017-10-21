@@ -2,7 +2,7 @@
 -- Area: Bastok Mines
 -- NPC:  Door
 -- Involved in Quest: A Thief in Norg!?
--- @pos 70 7 2 234
+-- !pos 70 7 2 234
 -----------------------------------
 package.loaded["scripts/zones/Bastok_Mines/TextIDs"] = nil;
 -----------------------------------
@@ -15,17 +15,17 @@ require("scripts/zones/Bastok_Mines/TextIDs");
 -----------------------------------
 
 function onTrade(player,npc,trade)
-end; 
+end;
 
 -----------------------------------
 -- onTrigger Action
 -----------------------------------
 
 function onTrigger(player,npc)
-	if(player:getQuestStatus(OUTLANDS,A_THIEF_IN_NORG) == QUEST_ACCEPTED and player:getVar("aThiefinNorgCS") == 3) then
-		player:startEvent(0x00ba);
-		return -1;
-	end
+    if (player:getQuestStatus(OUTLANDS,A_THIEF_IN_NORG) == QUEST_ACCEPTED and player:getVar("aThiefinNorgCS") == 3) then
+        player:startEvent(0x00ba);
+        return -1;
+    end
 end;
 
 -----------------------------------
@@ -33,8 +33,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -42,10 +42,10 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
-	
-	if(csid == 0x00ba) then
-		player:setVar("aThiefinNorgCS",4);
-	end
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
+
+    if (csid == 0x00ba) then
+        player:setVar("aThiefinNorgCS",4);
+    end
 end;

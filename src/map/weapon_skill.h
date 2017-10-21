@@ -30,7 +30,7 @@
 #include "entities/battleentity.h"
 
 
-#define MAX_WEAPONSKILL_ID	227
+#define MAX_WEAPONSKILL_ID	239
 
 class CWeaponSkill
  {
@@ -49,7 +49,9 @@ public:
     bool        mainOnly(); // can only be used as main job
 	uint8		getAoe();
 	uint8		getAnimationId();
+    duration    getAnimationTime();
 	uint8       getType();
+    uint8       getUnlockId();
 
 	void		setID(uint16 id);
 	void		setJob(int8* jobs);
@@ -61,8 +63,10 @@ public:
     void		setTertiarySkillchain(uint8 skillchain);
 	void		setAoe(uint8 aoe);
 	void        setAnimationId(int8 animation);
+    void        setAnimationTime(duration time);
 	void		setType(uint8 type);
     void        setMainOnly(uint8 main);
+    void        setUnlockId(uint8 id);
 
     uint8       getPrimarySkillchain();
     uint8       getSecondarySkillchain();
@@ -78,6 +82,7 @@ private:
 	uint8		m_Job[MAX_JOBTYPE];
 	uint16		m_Skilllevel;
 	uint8       m_AnimationId;
+    duration    m_AnimationTime;
 	uint8       m_Element;
     uint8       m_PrimarySkillchain;
     uint8       m_SecondarySkillchain;
@@ -85,6 +90,7 @@ private:
 	uint8		m_Range;
 	uint8       m_AOE;
     uint8       m_mainOnly;
+    uint8       m_unlockId;
 
 	string_t	m_name;
 };

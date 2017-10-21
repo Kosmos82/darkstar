@@ -20,9 +20,9 @@ This file is part of DarkStar-server source code.
 
 ===========================================================================
 */
+#include "../common/socket.h"
 #include "../common/sql.h"
 #include "../common/mmo.h"
-#include "../common/socket.h"
 
 #include <zmq.hpp>
 
@@ -30,8 +30,8 @@ struct chat_message_t
 {
     uint64 dest;
     MSGSERVTYPE type;
-    zmq::message_t* data;
-    zmq::message_t* packet;
+    zmq::message_t data;
+    zmq::message_t packet;
 };
 
 void message_server_init();

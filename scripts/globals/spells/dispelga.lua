@@ -9,20 +9,20 @@ require("scripts/globals/magic");
 -----------------------------------------
 
 function onMagicCastingCheck(caster,target,spell)
-	return 0;
+    return 0;
 end;
 
 function onSpellCast(caster,target,spell)
-    -- Pull base stats.
-    local dINT = (caster:getStat(MOD_INT)*1.3 - target:getStat(MOD_INT));
-
-    local resist = applyResistance(caster,spell,target,dINT,ENFEEBLING_MAGIC_SKILL);
+    local params = {};
+    params.attribute = MOD_INT;
+    params.skillType = ENFEEBLING_MAGIC_SKILL;
+    local resist = applyResistance(caster, target, spell, params);
     local effect = EFFECT_NONE;
 
-    if(resist > 0.0625) then
+    if (resist > 0.0625) then
         spell:setMsg(341);
         effect = target:dispelStatusEffect();
-        if(effect == EFFECT_NONE) then
+        if (effect == EFFECT_NONE) then
             -- no effect
             spell:setMsg(75);
         end

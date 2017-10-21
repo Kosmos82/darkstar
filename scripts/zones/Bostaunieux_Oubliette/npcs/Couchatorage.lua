@@ -2,7 +2,7 @@
 --  Area: Bostaunieux Oubliette
 --  NPC:  Couchatorage
 --  Type: Standard NPC
---  @pos -20.502 -19 17.765 167
+-- !pos -20.502 -19 17.765 167
 -----------------------------------
 package.loaded["scripts/zones/Bostaunieux_Oubliette/TextIDs"] = nil;
 -----------------------------------
@@ -19,7 +19,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:startEvent(0x0009);
+    player:startEvent(0x0009);
 end;
 
 -----------------------------------
@@ -27,8 +27,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -36,7 +36,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 

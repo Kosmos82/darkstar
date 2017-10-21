@@ -2,7 +2,7 @@
 --  Area: Manaclipper
 --  NPC:  Khots Chalahko
 --  Type: NPC
---  @pos 0.019 -4.674 -18.782 3
+-- !pos 0.019 -4.674 -18.782 3
 -----------------------------------
 package.loaded["scripts/zones/Manaclipper/TextIDs"] = nil;
 -----------------------------------
@@ -21,7 +21,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	player:showText(npc,KHOTS_CHALAHKO_OFFSET);
+    player:showText(npc,KHOTS_CHALAHKO_OFFSET);
 end;
 
 -----------------------------------
@@ -29,8 +29,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -38,7 +38,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-	-- printf("CSID: %u",csid);
-	-- printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
